@@ -6,9 +6,6 @@
 //
 // Scripts
 // 
-
-window.addEventListener('DOMContentLoaded', event => {
-
     // Pop-up
     document.addEventListener("DOMContentLoaded", function() {
         setTimeout(function() {
@@ -22,6 +19,7 @@ window.addEventListener('DOMContentLoaded', event => {
             popup.style.display = "none";
         });
     });
+window.addEventListener('DOMContentLoaded', event => {
 
     // Navbar shrink function
     var navbarShrink = function () {
