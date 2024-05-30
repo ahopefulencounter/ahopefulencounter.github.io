@@ -9,6 +9,20 @@
 
 window.addEventListener('DOMContentLoaded', event => {
 
+    // Pop-up
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "flex";
+        }, 6000);
+    
+        var closeBtn = document.querySelector(".close-btn");
+        closeBtn.addEventListener("click", function() {
+            var popup = document.getElementById("popup");
+            popup.style.display = "none";
+        });
+    });
+
     // Navbar shrink function
     var navbarShrink = function () {
         const navbarCollapsible = document.body.querySelector('#mainNav');
