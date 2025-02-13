@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AHE CBO Glossary</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    #search {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 2px solid #3498db;
+      border-radius: 5px;
+    }
+    .filters {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .filters button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .filters button:hover {
+      background-color: #2980b9;
+    }
+    .glossary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .term {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 15px;
+      width: calc(33% - 20px);
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .term h3 {
+      margin: 0;
+      color: #3498db;
+    }
+    .definition {
+      display: none;
+      margin-top: 10px;
+      color: #555;
+    }
+    .term.active .definition {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <h1>AHE CBO Glossary</h1>
+  <input type="text" id="search" placeholder="Search for a term...">
+  <div class="filters">
+    <button data-filter="all">All</button>
+    <button data-filter="A">A</button>
+    <button data-filter="B">B</button>
+    <button data-filter="C">C</button>
+    <button data-filter="D">D</button>
+    <button data-filter="E">E</button>
+    <button data-filter="F">F</button>
+    <button data-filter="G">G</button>
+    <button data-filter="H">H</button>
+    <button data-filter="I">I</button>
+    <button data-filter="J">J</button>
+    <button data-filter="K">K</button>
+    <button data-filter="L">L</button>
+    <button data-filter="M">M</button>
+    <button data-filter="N">N</button>
+    <button data-filter="O">O</button>
+    <button data-filter="P">P</button>
+    <button data-filter="Q">Q</button>
+    <button data-filter="R">R</button>
+    <button data-filter="S">S</button>
+    <button data-filter="T">T</button>
+    <button data-filter="U">U</button>
+    <button data-filter="V">V</button>
+    <button data-filter="W">W</button>
+    <button data-filter="X">X</button>
+    <button data-filter="Y">Y</button>
+    <button data-filter="Z">Z</button>
+    <!-- Add more buttons for each letter -->
+  </div>
+  <div class="glossary" id="glossary">
+    <!-- Glossary terms will be dynamically inserted here -->
+  </div>
+
+  <script>
+    const glossaryData = [
+      { term: "Advocacy", definition: "Efforts to influence public policy, laws, or practices to address community needs and promote social justice.", letter: "A" },
+      { term: "Capacity Building", definition: "Activities that strengthen the skills, resources, and abilities of individuals, organizations, and communities to achieve their goals.", letter: "C" },
+      { term: "Community Engagement", definition: "The process of involving community members in decision-making, program design, and implementation to ensure their needs are met.", letter: "C" },
+      { term: "Diversity, Equity, and Inclusion (DEI)", definition: "A framework for creating environments that respect and value differences, ensure fair treatment, and foster a sense of belonging for all.", letter: "D" },
+      { term: "Empowerment", definition: "The process of enabling individuals or communities to gain control over their lives and circumstances.", letter: "E" },
+      { term: "Grassroots", definition: "Initiatives or movements that originate within a community rather than from external organizations or authorities.", letter: "G" },
+      { term: "Holistic Approach", definition: "Addressing the physical, emotional, social, and spiritual needs of individuals or communities.", letter: "H" },
+      { term: "Intersectionality", definition: "The interconnected nature of social categorizations like race, class, and gender, which can create overlapping systems of discrimination or disadvantage.", letter: "I" },
+      { term: "Justice-Oriented Approach", definition: "Focusing on addressing systemic inequities and advocating for structural change.", letter: "J" },
+      { term: "Lived Experience", definition: "The firsthand knowledge and perspective of individuals who have experienced specific challenges or conditions.", letter: "L" },
+      { term: "Mutual Aid", definition: "A form of solidarity-based support where community members help each other meet their needs.", letter: "M" },
+      { term: "Outreach", definition: "Activities aimed at connecting with and engaging community members, especially those who are underserved or hard to reach.", letter: "O" },
+      { term: "Participatory Approach", definition: "Involving community members in the planning, implementation, and evaluation of programs.", letter: "P" },
+      { term: "Resilience", definition: "The ability of individuals or communities to adapt and thrive in the face of adversity.", letter: "R" },
+      { term: "Social Capital", definition: "The networks, relationships, and trust within a community that enable collective action and mutual support.", letter: "S" },
+      { term: "Trauma-Informed Care", definition: "An approach that recognizes and responds to the impact of trauma on individuals and communities.", letter: "T" },
+      { term: "Universal Design", definition: "Creating programs, services, or environments that are accessible and usable by all people, regardless of ability or background.", letter: "U" },
+      { term: "Volunteer Management", definition: "The process of recruiting, training, and supporting volunteers to contribute effectively to an organization’s mission.", letter: "V" },
+      { term: "Youth Engagement", definition: "Involving young people in decision-making, leadership, and program design to ensure their voices are heard.", letter: "Y" }
+    ];
+
+    const glossaryContainer = document.getElementById('glossary');
+    const searchInput = document.getElementById('search');
+    const filterButtons = document.querySelectorAll('.filters button');
+
+    // Display all terms initially
+    displayGlossary(glossaryData);
+
+    // Search functionality
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredTerms = glossaryData.filter(item => 
+        item.term.toLowerCase().includes(searchTerm) || 
+        item.definition.toLowerCase().includes(searchTerm)
+      );
+      displayGlossary(filteredTerms);
+    });
+
+    // Filter by letter
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-filter');
+        if (filter === 'all') {
+          displayGlossary(glossaryData);
+        } else {
+          const filteredTerms = glossaryData.filter(item => item.letter === filter);
+          displayGlossary(filteredTerms);
+        }
+      });
+    });
+
+    // Display glossary terms
+    function displayGlossary(terms) {
+      glossaryContainer.innerHTML = terms.map(item => `
+        <div class="term" onclick="toggleDefinition(this)">
+          <h3>${item.term}</h3>
+          <div class="definition">${item.definition}</div>
+        </div>
+      `).join('');
+    }
+
+    // Toggle definition visibility
+    function toggleDefinition(term) {
+      term.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
