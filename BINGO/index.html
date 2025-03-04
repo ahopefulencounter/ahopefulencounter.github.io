@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINGO Number Display</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>BINGO Number Display</h1>
+        <div class="input-section">
+            <input type="text" id="bingoLetter" placeholder="Enter BINGO Letter (B, I, N, G, O)" maxlength="1">
+            <input type="number" id="bingoNumber" placeholder="Enter Number (1-75)">
+            <button id="displayButton">Display BINGO Number</button>
+            <button id="clearButton">Clear</button>
+        </div>
+        <div id="bingoDisplay" class="bingo-display">
+            <!-- Current BINGO Number will be displayed here -->
+        </div>
+        <div id="previousSubmissions">
+            <h2>Previous Submissions</h2>
+            <div id="submissionsGrid">
+                <!-- Previous submissions will be displayed here in a grid -->
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
