@@ -102,3 +102,12 @@ button:hover {
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+#undoButton {
+    background-color: #ffc107; /* Yellow color for the undo button */
+    color: #333;
+}
+
+#undoButton:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}

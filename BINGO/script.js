@@ -13,13 +13,27 @@ document.getElementById('displayButton').addEventListener('click', function() {
         // Add the submission to the list and save to local storage
         submissions.push(submission);
         localStorage.setItem('bingoSubmissions', JSON.stringify(submissions));
-
-        // Save the current BINGO value to local storage
-        localStorage.setItem('currentBingoValue', submission);
-
         updateSubmissionsGrid();
     } else {
         alert('Please enter a valid BINGO letter (B, I, N, G, O) and number (1-75).');
+    }
+});
+
+document.getElementById('undoButton').addEventListener('click', function() {
+    if (submissions.length > 0) {
+        submissions.pop(); // Remove the last submission
+        localStorage.setItem('bingoSubmissions', JSON.stringify(submissions));
+        updateSubmissionsGrid();
+
+        // Update the current BINGO display
+        const bingoDisplay = document.getElementById('bingoDisplay');
+        if (submissions.length > 0) {
+            bingoDisplay.textContent = submissions[submissions.length - 1];
+        } else {
+            bingoDisplay.style.display = 'none';
+        }
+    } else {
+        alert('No submissions to undo.');
     }
 });
 
@@ -31,7 +45,6 @@ document.getElementById('clearButton').addEventListener('click', function() {
     // Clear the submissions list and local storage
     submissions = [];
     localStorage.removeItem('bingoSubmissions');
-    localStorage.removeItem('currentBingoValue');
     updateSubmissionsGrid();
 });
 
