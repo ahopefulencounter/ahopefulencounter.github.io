@@ -1,153 +1,509 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="Beginning Voice - Free introduction to the world of singing" />
-        <meta name="author" content="" />
-        <title>Beginning Voice</title>
-        <link rel="icon" type="image/x-icon" href="/assets/ahe_logo.png" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/css/styles.css" rel="stylesheet" />
-        <style>
-            .program-highlights {
-                background-color: #f8f9fa;
-                padding: 2rem;
-                border-radius: 0.5rem;
-                margin-bottom: 2rem;
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="Beginning Voice - Music program for youth mental health and advocacy" />
+    <title>Beginning Voice | Youth Music & Wellness Program</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #5e35b1; /* Purple tone for mental health */
+            --secondary: #ffab00; /* Gold accent */
+            --dark: #1a237e;
+            --light: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('/assets/img/beginning_voice_wallpaper.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        .program-card {
+            border: none;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            height: 100%;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .benefit-item {
+            background: var(--light);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark);
+            border-color: var(--dark);
+        }
+        
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .testimonial {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: 8px;
+            height: 100%;
+        }
+        
+        .nav-link {
+            font-weight: 600;
+        }
+        
+        .impact-number {
+            font-size: 3rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        #impact .impact-number {
+            color: white;
+        }
+        
+        /* Ensure proper spacing for sections */
+        section {
+            padding: 80px 0;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0;
             }
-            .signup-btn {
-                background-color: #28a745;
-                color: white;
-                padding: 0.75rem 1.5rem;
-                font-size: 1.25rem;
-                border-radius: 0.3rem;
-                text-decoration: none;
-                display: inline-block;
-                margin: 1rem 0;
+            
+            section {
+                padding: 60px 0;
             }
-            .limited-space {
-                color: #dc3545;
-                font-weight: bold;
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
+            
+            .display-3 {
+                font-size: 2.5rem;
             }
-            .free-banner {
-                background-color: #ffc107;
-                color: #000;
-                padding: 0.5rem;
-                font-weight: bold;
-                border-radius: 0.25rem;
-                display: inline-block;
-                margin-bottom: 1rem;
-            }
-        </style>
-    </head>
-    <body id="page-top">
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="https://hopefulencounter.org/">Home</a>
-                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                    Menu
-                    <i class="fas fa-bars"></i>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#program">Program</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://hopefulencounter.org/">
+                <img src="/assets/ahe_logo.png" alt="A Hopeful Encounter" height="50"> A Hopeful Encounter, Inc.
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#program">Program</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#impact">Impact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#testimonials">Stories</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-3 my-2 my-lg-0">
+                        <a class="btn btn-primary" href="#signup">Join Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero mt-5 pt-4">
+        <div class="container">
+            <h1 class="display-3 mb-4">Beginning Voice</h1>
+            <h2 class="mb-4">Finding Strength Through Song</h2>
+            <p class="lead mb-5">A free music program empowering youth through vocal training, mental health support, and community advocacy</p>
+            <a href="#signup" class="btn btn-primary btn-lg px-4 me-2">Enroll Today</a>
+            <a href="#program" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="mb-4">Our Mission</h2>
+                    <p class="lead">Beginning Voice uses music as a tool for youth empowerment, mental wellness, and social change.</p>
+                    <p>Inspired by the healing power of music, our program provides a safe space for young people to:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Develop confidence through artistic expression</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Build emotional resilience and coping skills</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Find community with peers facing similar challenges</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Amplify their voices on issues that matter to them</li>
                     </ul>
                 </div>
-            </div>
-        </nav>
-        <!-- Masthead-->
-        <header class="beginningVOICE">
-            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
-                <div class="d-flex justify-content-center">
-                    <div class="text-center">
-                        <h1 class="mx-auto my-0 text-uppercase" style="color: #ffffff;">A Hopeful Encounter presents:</h1>
-                        <h1 class="mx-auto my-0 text-uppercase" style="color: #ffffff; margin-top: 1rem;">Beginning Voice</h1>
-                        <div class="limited-space">Limited space!</div>
-                        <div class="free-banner">FREE!!!</div>
-                        <h2 class="text-white-50 mx-auto mt-2 mb-5">Introduction to the world of singing</h2>
-                    </div>
+                <div class="col-lg-6">
+                    <img src="/assets/img/beginning_voice_pic1.jpg" 
+                         alt="Youth singing together" class="img-fluid rounded shadow">
                 </div>
             </div>
-        </header>
-        <!-- Program Section-->
-        <section class="about-section text-center" id="program">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="text-black mb-4">FREE 4 Month Program</h2>
-                        <p class="text-black-50">
-                            Every Thursday 4-5pm<br>
-                            Ages 8+
-                        </p>
-                        <div class="program-highlights">
-                            <h3 class="text-black mb-3">Learn:</h3>
-                            <ul class="text-left text-black-50" style="list-style-type: none; padding-left: 0;">
-                                <li><i class="fas fa-check text-success"></i> Vocal Care</li>
-                                <li><i class="fas fa-check text-success"></i> Breath Control</li>
-                                <li><i class="fas fa-check text-success"></i> Voice Discovery</li>
-                                <li><i class="fas fa-check text-success"></i> And more!!!</li>
+        </div>
+    </section>
+
+    <!-- Program Details -->
+    <section id="program" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">The Beginning Voice Experience</h2>
+                <p class="lead">Our 16-week program combines music education with mental health support</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-music fa-3x"></i>
+                            </div>
+                            <h3>Vocal Training</h3>
+                            <p>Professional instruction in:</p>
+                            <ul class="mb-0">
+                                <li>Breath control & technique</li>
+                                <li>Vocal health & maintenance</li>
+                                <li>Performance skills</li>
+                                <li>Songwriting basics</li>
                             </ul>
                         </div>
-                        <a href="#contact" class="signup-btn">Sign up here!</a>
                     </div>
                 </div>
-            </div>
-        </section>
-        <!-- Contact-->
-        <section class="contact-section bg-black" id="contact">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5">
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Address</h4>
-                                <hr class="my-4 mx-auto" />
-                                <div class="small text-black-50">3253 E Shields Ave, Fresno, CA 93726</div>
+                
+                <div class="col-md-4">
+                    <div class="card program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-heart fa-3x"></i>
                             </div>
+                            <h3>Wellness Components</h3>
+                            <p>Integrated mental health support:</p>
+                            <ul class="mb-0">
+                                <li>Emotional expression through music</li>
+                                <li>Mindfulness & stress reduction</li>
+                                <li>Peer support circles</li>
+                                <li>Referrals to counseling services</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-user text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Contact</h4>
-                                <hr class="my-4 mx-auto" />
-                                <div class="small text-black-50">Thomas Vue</div>
-                                <div class="small text-black-50">Community Power Builder</div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-bullhorn fa-3x"></i>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3 mb-md-0">
-                        <div class="card py-4 h-100">
-                            <div class="card-body text-center">
-                                <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                                <h4 class="text-uppercase m-0">Phone</h4>
-                                <hr class="my-4 mx-auto" />
-                                <div class="small text-black-50">(559) 202-3950</div>
-                                <div class="small text-black-50">thomas@hopefulencounter.org</div>
-                            </div>
+                            <h3>Advocacy Training</h3>
+                            <p>Using music for social change:</p>
+                            <ul class="mb-0">
+                                <li>Writing songs about community issues</li>
+                                <li>Performing at local events</li>
+                                <li>Youth leadership development</li>
+                                <li>Connecting with activist networks</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; A Hopeful Encounter, Inc. 2024</div></footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="/js/scripts.js"></script>
-    </body>
+            
+            <div class="text-center mt-5">
+                <div class="alert alert-warning d-inline-block">
+                    <h4 class="alert-heading">Limited Spaces Available!</h4>
+                    <p class="mb-0">Our free program fills quickly - apply today to secure your spot</p>
+                </div>
+                <br>
+                <a href="#signup" class="btn btn-primary btn-lg px-5">Apply Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">Our Impact</h2>
+                <p class="lead">Measuring success beyond musical skills</p>
+            </div>
+            
+            <div class="row text-center">
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <div class="impact-number">92%</div>
+                    <p>Report improved self-confidence</p>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <div class="impact-number">85%</div>
+                    <p>Experience reduced anxiety</p>
+                </div>
+                <div class="col-md-3 mb-4 mb-md-0">
+                    <div class="impact-number">78%</div>
+                    <p>Develop new coping strategies</p>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-number">100%</div>
+                    <p>Graduate with performance skills</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="testimonials" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">Youth Voices</h2>
+                <p class="lead">Hear from our participants</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card testimonial">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="fas fa-quote-left fa-2x text-primary"></i>
+                            </div>
+                            <p class="mb-4">"Before Beginning Voice, I was too shy to speak up in class. Now I can sing solo in front of 100 people. It changed everything."</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://randomuser.me/api/portraits/women/22.jpg" alt="Maria" class="rounded-circle me-3" width="50">
+                                <div>
+                                    <h5 class="mb-0">Maria, 14</h5>
+                                    <small class="text-muted">Program Graduate</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card testimonial">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="fas fa-quote-left fa-2x text-primary"></i>
+                            </div>
+                            <p class="mb-4">"Writing songs about my anxiety helped me understand it better. Now I have tools to manage my feelings through music."</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Jamal" class="rounded-circle me-3" width="50">
+                                <div>
+                                    <h5 class="mb-0">Jamal, 16</h5>
+                                    <small class="text-muted">Current Participant</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card testimonial">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="fas fa-quote-left fa-2x text-primary"></i>
+                            </div>
+                            <p class="mb-4">"We performed our song about school safety for the city council. They actually listened to us because of this program."</p>
+                            <div class="d-flex align-items-center">
+                                <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Lena" class="rounded-circle me-3" width="50">
+                                <div>
+                                    <h5 class="mb-0">Lena, 15</h5>
+                                    <small class="text-muted">Youth Advocate</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Section -->
+    <section id="signup" class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="mb-4">Ready to Find Your Voice?</h2>
+                    <p class="lead mb-5">Join our next 16-week session starting June 5th</p>
+                    
+                    <div class="card shadow-sm">
+                        <div class="card-body p-4 p-md-5">
+                            <h3 class="mb-4">Program Details</h3>
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i> Thursdays 4-5pm</li>
+                                <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i> 3253 E Shields Ave, Fresno</li>
+                                <li class="mb-2"><i class="fas fa-user-friends text-primary me-2"></i> Ages 8-18</li>
+                                <li class="mb-2"><i class="fas fa-tag text-primary me-2"></i> Completely Free</li>
+                            </ul>
+                            
+                            <form class="text-start">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="age" class="form-label">Age</label>
+                                        <input type="number" class="form-control" id="age" min="12" max="18" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="phone" class="form-label">Phone</label>
+                                        <input type="tel" class="form-control" id="phone">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="reason" class="form-label">Why are you interested in the program? (Optional)</label>
+                                        <textarea class="form-control" id="reason" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <button type="submit" class="btn btn-primary w-100 py-3">Submit Application</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="mb-4">Contact Our Team</h2>
+                    <p class="lead">Have questions about the program?</p>
+                    <p>Our youth program coordinator is happy to help with any questions about eligibility, scheduling, or special accommodations.</p>
+                    
+                    <div class="mt-4">
+                        <h5 class="mb-3">Thomas Vue</h5>
+                        <p class="mb-1"><i class="fas fa-user-tie text-primary me-2"></i> Community Power Builder</p>
+                        <p class="mb-1"><i class="fas fa-phone text-primary me-2"></i> (559) 202-3950</p>
+                        <p class="mb-1"><i class="fas fa-envelope text-primary me-2"></i> thomas@hopefulencounter.org</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h3 class="mb-4">Program Location</h3>
+                            <div class="ratio ratio-16x9 mb-4">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.604061093963!2d-119.78796568471212!3d36.7320692799628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80945e26d4f58091%3A0xf082a7e633ee41f0!2s3253%20E%20Shields%20Ave%2C%20Fresno%2C%20CA%2093726%2C%20USA!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s" 
+                                        allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                            <address>
+                                <strong>A Hopeful Encounter</strong><br>
+                                3253 E Shields Ave<br>
+                                Fresno, CA 93726
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Beginning Voice</h5>
+                    <p>A program of A Hopeful Encounter dedicated to youth empowerment through music and mental health support.</p>
+                    <div class="mt-4">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#about" class="text-white-50">About the Program</a></li>
+                        <li class="mb-2"><a href="#program" class="text-white-50">Curriculum</a></li>
+                        <li class="mb-2"><a href="#impact" class="text-white-50">Our Impact</a></li>
+                        <li class="mb-2"><a href="#testimonials" class="text-white-50">Success Stories</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-white-50">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Support Our Work</h5>
+                    <p>Beginning Voice is completely free for participants thanks to donor support.</p>
+                    <a href="https://www.zeffy.com/donation-form/966f643a-9771-4d21-bf06-51fc6c43f4d3" 
+                       class="btn btn-outline-light mt-2" target="_blank">Make a Donation</a>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="small mb-0">&copy; 2025 A Hopeful Encounter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS (if needed) -->
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add fixed-top offset for navbar
+        window.addEventListener('DOMContentLoaded', () => {
+            const navbarHeight = document.querySelector('.navbar').offsetHeight;
+            document.documentElement.style.setProperty('--navbar-height', `${navbarHeight}px`);
+        });
+    </script>
+</body>
 </html>
