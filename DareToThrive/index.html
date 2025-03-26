@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dare to Thrive | Fun Mindset Program for Children</title>
+    <meta name="description" content="Interactive mindset coaching program for children grades 1-8 focusing on self-confidence, self-talk, and neural pathways development">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6a4c93; /* Purple */
+            --secondary: #f8c537; /* Gold */
+            --light: #f9f5ff;
+            --dark: #4a2c82;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(106,76,147,0.9), rgba(106,76,147,0.9)), 
+                        url('/assets/img/dtt_bg.png');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+        }
+        
+        .program-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            height: 100%;
+            background-color: var(--light);
+        }
+        
+        .benefit-item {
+            border-left: 4px solid var(--primary);
+            color: #333333;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: white;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--dark);
+            border-color: var(--dark);
+        }
+        
+        .text-primary {
+            color: var(--primary) !important;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary) !important;
+        }
+        
+        .bg-light {
+            background-color: var(--light) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="https://hopefulencounter.org/">
+                <img src="/assets/ahe_logo.png" alt="A Hopeful Encounter" height="50">
+                <span class="fw-bold" style="color: var(--primary); font-size: 1.5rem;">DARE TO THRIVE</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#topics">Topics</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#benefits">Benefits</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-3 my-2 my-lg-0">
+                        <a class="btn btn-primary" href="#register">Register Now</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="display-3 mb-3">DARE TO THRIVE</h1>
+            <h2 class="mb-4">Fun & Interactive Mindset Program</h2>
+            <p class="lead mb-5">Coaching children grades 1-8 to develop confidence, positive self-talk, and resilient neural pathways</p>
+            <a href="#register" class="btn btn-primary btn-lg px-4 me-2">Enroll Today</a>
+            <a href="#about" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="mb-4">About Our Program</h2>
+                    <p class="lead">We help children build the mental foundations for lifelong success and happiness.</p>
+                    <p>Through interactive activities, storytelling, and evidence-based techniques, we guide children to:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Rewire negative thought patterns</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Develop growth mindset skills</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Strengthen emotional resilience</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Build authentic self-confidence</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <img src="/assets/img/dtt_pic1.jpg" 
+                         alt="Children learning together" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="topics" class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">Program Topics</h2>
+                <p class="lead">Evidence-based concepts taught through fun, age-appropriate activities</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-brain fa-3x"></i>
+                            </div>
+                            <h3>Neural Pathways</h3>
+                            <p>Understanding how thoughts create physical pathways in the brain and how to build positive ones</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-comment-dots fa-3x"></i>
+                            </div>
+                            <h3>Self-Talk</h3>
+                            <p>Transforming negative self-talk into empowering internal dialogue</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-star fa-3x"></i>
+                            </div>
+                            <h3>Self-Confidence</h3>
+                            <p>Building authentic confidence based on self-awareness rather than external validation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-lightbulb fa-3x"></i>
+                            </div>
+                            <h3>Supportive Beliefs</h3>
+                            <p>Identifying and strengthening beliefs that support growth and happiness</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="program-card">
+                        <div class="card-body p-4">
+                            <div class="text-primary mb-3">
+                                <i class="fas fa-hands-helping fa-3x"></i>
+                            </div>
+                            <h3>Self-Responsibility</h3>
+                            <p>Developing personal accountability in an age-appropriate way</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-5 bg-primary text-white">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="mb-3">Program Benefits</h2>
+                <p class="lead">What children gain from Dare to Thrive</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="benefit-item">
+                        <h4><i class="fas fa-check-circle me-2"></i> Improved Emotional Regulation</h4>
+                        <p class="mb-0">Children learn to recognize and manage their emotions effectively</p>
+                    </div>
+                </div>
+                <div class="col-md-6 text-white">
+                    <div class="benefit-item">
+                        <h4><i class="fas fa-check-circle me-2"></i> Stronger Problem-Solving</h4>
+                        <p class="mb-0">Develops creative thinking and solution-focused approaches</p>
+                    </div>
+                </div>
+                <div class="col-md-6 text-white">
+                    <div class="benefit-item">
+                        <h4><i class="fas fa-check-circle me-2"></i> Positive Peer Relationships</h4>
+                        <p class="mb-0">Builds empathy and communication skills</p>
+                    </div>
+                </div>
+                <div class="col-md-6 text-white">
+                    <div class="benefit-item">
+                        <h4><i class="fas fa-check-circle me-2"></i> Academic Confidence</h4>
+                        <p class="mb-0">Reduces test anxiety and improves learning mindset</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Registration Section -->
+<section id="register" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="row g-0">
+                            <!-- Program Details Column -->
+                            <div class="col-lg-5 p-4 p-md-5 bg-primary text-white">
+                                <h2 class="text-white mb-4">Program Details</h2>
+                                <ul class="list-unstyled mb-4">
+                                    <li class="mb-3"><i class="fas fa-user-friends fa-fw me-2"></i> For Grades 1-8</li>
+                                    <li class="mb-3"><i class="fas fa-calendar-alt fa-fw me-2"></i> Weekly Sessions</li>
+                                    <li class="mb-3"><i class="fas fa-map-marker-alt fa-fw me-2"></i> 3253 E. Shields Ave, Fresno</li>
+                                    <li class="mb-3"><i class="fas fa-tag fa-fw me-2"></i> Completely Free</li>
+                                </ul>
+                                <div class="mt-4">
+                                    <h5 class="mb-3">Contact Information</h5>
+                                    <p class="mb-2"><i class="fas fa-phone fa-fw me-2"></i> (559) 296-8231</p>
+                                    <p class="mb-0"><i class="fas fa-envelope fa-fw me-2"></i> syang@hopefulencounter.org</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Google Form Column -->
+                            <div class="col-lg-7">
+                                <div class="p-3 p-md-4">
+                                    <h3 class="mb-4 text-center">Register Your Child</h3>
+                                    <div class="ratio ratio-1x1">
+                                        <!-- Replace with your actual Google Form embed code -->
+                                        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScHv4nqiUFGk_5_Ko7tQgkUqrx8C8J-583Yh-EzrAlZKuU3Cg/viewform?embedded=true" 
+                                                frameborder="0" 
+                                                marginheight="0" 
+                                                marginwidth="0"
+                                                style="border: none;">
+                                            Loading...
+                                        </iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h2 class="mb-4">Contact Us</h2>
+                    <p class="lead">Have questions about the program?</p>
+                    <p>Our program coordinator is happy to help with any questions about scheduling, age groups, or program content.</p>
+                    
+                    <div class="mt-4">
+                        <h5 class="mb-3">Program Information</h5>
+                        <p class="mb-1"><i class="fas fa-phone text-primary me-2"></i> (559) 296-8231</p>
+                        <p class="mb-1"><i class="fas fa-envelope text-primary me-2"></i> syang@hopefulencounter.org</p>
+                        <p class="mb-1"><i class="fas fa-map-marker-alt text-primary me-2"></i> 3253 E. Shields Ave, Fresno</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body p-4">
+                            <h3 class="mb-4">Program Location</h3>
+                            <div class="ratio ratio-16x9 mb-4">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.604061093963!2d-119.78796568471212!3d36.7320692799628!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80945e26d4f58091%3A0xf082a7e633ee41f0!2s3253%20E%20Shields%20Ave%2C%20Fresno%2C%20CA%2093726%2C%20USA!5e0!3m2!1sen!2s!4v1620000000000!5m2!1sen!2s" 
+                                        allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                            <address>
+                                <strong>A Hopeful Encounter</strong><br>
+                                3253 E Shields Ave<br>
+                                Fresno, CA 93726
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Dare to Thrive</h5>
+                    <p>A fun, interactive mindset program for children grades 1-8, helping them build confidence and resilience.</p>
+                    <div class="mt-4">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#about" class="text-white-50">About the Program</a></li>
+                        <li class="mb-2"><a href="#topics" class="text-white-50">Program Topics</a></li>
+                        <li class="mb-2"><a href="#benefits" class="text-white-50">Benefits</a></li>
+                        <li class="mb-2"><a href="#contact" class="text-white-50">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5>Program Details</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-user-friends text-primary me-2"></i> Grades 1-8</li>
+                        <li class="mb-2"><i class="fas fa-tag text-primary me-2"></i> Free Program</li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i> Fresno, CA</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="small mb-0">&copy; 2025 A Hopeful Encounter, Inc. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Smooth scrolling -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
