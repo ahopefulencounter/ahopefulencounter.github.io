@@ -152,7 +152,137 @@
                 width: 100%;
             }
         }
+
+        .firefly {
+            position: fixed;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #fff6a8;
+            box-shadow: 0 0 10px 2px #fff6a8;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 9999;
+      }
+
+.firefly.visible {
+  opacity: 0.8;
+}
     </style>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  setTimeout(createFireflies, 5000); // 5-second delay
+});
+
+function getRandomColor() {
+  // Generate warm colors (yellows, oranges, whites) with some chance of cool colors
+  const colorTypes = [
+    // Yellow-orange range
+    () => `hsl(${40 + Math.random() * 20}, 100%, ${70 + Math.random() * 20}%)`,
+    // White-yellow
+    () => `hsl(${50 + Math.random() * 10}, ${80 + Math.random() * 20}%, ${80 + Math.random() * 15}%)`,
+    // Occasionally some blue/green fireflies (10% chance)
+    () => `hsl(${160 + Math.random() * 60}, 100%, ${70 + Math.random() * 20}%)`
+  ];
+  
+  // 90% chance warm colors, 10% chance cool colors
+  const colorFn = Math.random() > 0.1 ? colorTypes[Math.floor(Math.random() * 2)] : colorTypes[2];
+  return colorFn();
+}
+
+function createFireflies() {
+  const container = document.getElementById('fireflies-container');
+  if (!container) return;
+  
+  const fireflyCount = 15;
+  const duration = 15;
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+  
+  for (let i = 0; i < fireflyCount; i++) {
+    const firefly = document.createElement('div');
+    firefly.className = 'firefly';
+    
+    // Assign random color
+    const color = getRandomColor();
+    firefly.style.backgroundColor = color;
+    firefly.style.boxShadow = `0 0 10px 2px ${color}`;
+    
+    container.appendChild(firefly);
+    
+    // Random starting position
+    const startX = Math.random() * viewportWidth;
+    const startY = Math.random() * viewportHeight;
+    
+    // Random movement path
+    const endX = startX + (Math.random() * 200 - 100);
+    const endY = startY + (Math.random() * 200 - 100);
+    
+    // Set initial position
+    firefly.style.left = `${startX}px`;
+    firefly.style.top = `${startY}px`;
+    
+    // Make firefly visible
+    setTimeout(() => {
+      firefly.classList.add('visible');
+    }, Math.random() * 1000);
+    
+    // Animate firefly
+    const animation = firefly.animate([
+      { transform: `translate(0, 0)` },
+      { transform: `translate(${endX - startX}px, ${endY - startY}px)` }
+    ], {
+      duration: duration * 1000,
+      iterations: Infinity,
+      direction: 'alternate',
+      easing: 'ease-in-out'
+    });
+    
+    // Random flickering effect with occasional color variation
+    setInterval(() => {
+      // 20% chance to slightly modify the color when flickering
+      if (Math.random() > 0.8) {
+        const currentColor = firefly.style.backgroundColor;
+        const newColor = modifyColorSlightly(currentColor);
+        firefly.style.backgroundColor = newColor;
+        firefly.style.boxShadow = `0 0 10px 2px ${newColor}`;
+      }
+      firefly.style.opacity = Math.random() > 0.1 ? '0.8' : '0.2';
+    }, Math.random() * 1000 + 500);
+  }
+  
+  window.addEventListener('resize', function() {
+    const fireflies = document.querySelectorAll('.firefly');
+    fireflies.forEach(firefly => {
+      const currentLeft = parseFloat(firefly.style.left);
+      const currentTop = parseFloat(firefly.style.top);
+      
+      if (currentLeft > window.innerWidth || currentTop > window.innerHeight) {
+        firefly.style.left = `${Math.random() * window.innerWidth}px`;
+        firefly.style.top = `${Math.random() * window.innerHeight}px`;
+      }
+    });
+  });
+}
+
+// Helper function to slightly modify existing colors
+function modifyColorSlightly(hslColor) {
+  const parts = hslColor.match(/hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/);
+  if (!parts) return hslColor;
+  
+  const h = parseInt(parts[1]);
+  const s = parseInt(parts[2]);
+  const l = parseInt(parts[3]);
+  
+  // Small random adjustments (±10 degrees hue, ±5% saturation/lightness)
+  const newH = Math.max(0, Math.min(360, h + (Math.random() * 20 - 10)));
+  const newS = Math.max(50, Math.min(100, s + (Math.random() * 10 - 5)));
+  const newL = Math.max(60, Math.min(95, l + (Math.random() * 10 - 5)));
+  
+  return `hsl(${newH}, ${newS}%, ${newL}%)`;
+}
+    </script>
 </head>
 <body>
     <div class="header">
@@ -162,7 +292,7 @@
         </div>
     </div>
     
-    <div class="container">
+    <div class="container" id="fireflies-container">
         <div class="event-info">
             <div class="event-details">
                 <h2>Join Us for an Evening of Community & Wellness</h2>
