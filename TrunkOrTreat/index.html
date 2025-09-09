@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="A Hopeful Encounter's Trunk or Treat event in Midtown Plaza on October 10, 2025" />
+        <meta name="author" content="" />
+        <title>AHE Trunk or Treat 2025</title>
+        <link rel="icon" type="image/x-icon" href="assets/ahe_logo.png" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS -->
+        <style>
+            body {
+                font-family: 'Nunito', sans-serif;
+            }
+            
+            .masthead {
+                position: relative;
+                width: 100%;
+                height: auto;
+                min-height: 35rem;
+                padding: 15rem 0;
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.7) 75%, #000 100%), url("assets/img/trunk-or-treat-banner.jpg");
+                background-position: center;
+                background-repeat: no-repeat;
+                background-attachment: scroll;
+                background-size: cover;
+            }
+            
+            .btn-custom {
+                background-color: #f47b20;
+                border-color: #f47b20;
+                color: white;
+                padding: 12px 30px;
+                font-weight: bold;
+                margin: 10px;
+                border-radius: 30px;
+                text-transform: uppercase;
+                transition: all 0.3s;
+            }
+            
+            .btn-custom:hover {
+                background-color: #e06d15;
+                border-color: #e06d15;
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                color: white;
+            }
+            
+            .event-details {
+                background-color: #f8f9fa;
+                padding: 60px 0;
+            }
+            
+            .fundraiser-section {
+                background-color: #343a40;
+                color: white;
+                padding: 60px 0;
+            }
+            
+            .registration-options {
+                padding: 60px 0;
+            }
+            
+            .card {
+                border: none;
+                border-radius: 10px;
+                transition: transform 0.3s;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+            }
+            
+            .card:hover {
+                transform: translateY(-5px);
+            }
+            
+            .card-title {
+                color: #f47b20;
+                font-weight: bold;
+            }
+            
+            .countdown {
+                background-color: #f47b20;
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 20px 0;
+            }
+            
+            .countdown-number {
+                font-size: 2.5rem;
+                font-weight: bold;
+            }
+            
+            .countdown-label {
+                font-size: 0.9rem;
+                text-transform: uppercase;
+            }
+        </style>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="https://hopefulencounter.org">A Hopeful Encounter</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#details">Event Details</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#fundraiser">Pho Fundraiser</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        <h1 class="mx-auto my-0 text-uppercase text-white">Trunk or Treat 2025</h1>
+                        <h2 class="text-white mx-auto mt-2 mb-5">Presented by A Hopeful Encounter</h2>
+                        <h3 class="text-white mb-4">October 10, 2025 • Midtown Plaza</h3>
+                        <div class="countdown mt-5">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <div class="countdown-number" id="days">00</div>
+                                    <div class="countdown-label">Days</div>
+                                </div>
+                                <div class="col">
+                                    <div class="countdown-number" id="hours">00</div>
+                                    <div class="countdown-label">Hours</div>
+                                </div>
+                                <div class="col">
+                                    <div class="countdown-number" id="minutes">00</div>
+                                    <div class="countdown-label">Minutes</div>
+                                </div>
+                                <div class="col">
+                                    <div class="countdown-number" id="seconds">00</div>
+                                    <div class="countdown-label">Seconds</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- About Section -->
+        <section id="about" class="about-section text-center">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="text-dark mb-4">About Our Trunk or Treat</h2>
+                        <p class="text-dark-50">
+                            Join A Hopeful Encounter for our annual Trunk or Treat event at Midtown Plaza! This family-friendly Halloween celebration provides a safe environment for children to enjoy trick-or-treating from creatively decorated vehicle trunks while connecting with our community.
+                        </p>
+                        <p class="text-dark-50">
+                            This event supports our Taste of Traditions program, which builds holistic relationships between parents and children through culinary experiences that honor our cultural heritage.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Event Details -->
+        <section id="details" class="event-details">
+            <div class="container px-4 px-lg-5">
+                <h2 class="text-center mb-5">Event Details</h2>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-calendar-alt fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Date & Time</h4>
+                                <p class="card-text">Friday, October 10, 2025<br>5:00 PM - 9:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-map-marker-alt fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Location</h4>
+                                <p class="card-text">Midtown Plaza Shopping Center<br>Fresno, California</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-ghost fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Activities</h4>
+                                <ul class="list-unstyled">
+                                    <li>Safe Trick-or-Treating</li>
+                                    <li>Costume Contest</li>
+                                    <li>Live Performances</li>
+                                    <li>Car Show</li>
+                                    <li>Food Vendors</li>
+                                    <li>Games & Prizes</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-users fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">For Families</h4>
+                                <p class="card-text">Free admission for children 12 and under. Bring your own trick-or-treat bags! Costumes encouraged for all ages.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-car fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">For Participants</h4>
+                                <p class="card-text">Vendors, performers, and car show participants must register in advance. Limited spaces available!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Fundraiser Section -->
+        <section id="fundraiser" class="fundraiser-section text-center">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-lg-8">
+                        <h2 class="text-white mb-4">Pho Fundraiser</h2>
+                        <p class="text-white-50 mb-4">
+                            Enjoy delicious traditional pho at our fundraiser booth! All proceeds support our Taste of Traditions program, which builds holistic relationships between parents and children through culinary experiences that honor our cultural heritage.
+                        </p>
+                        <p class="text-white-50 mb-5">
+                            Taste of Traditions brings generations together in the kitchen, preserving family recipes while creating new memories and strengthening bonds through the shared experience of cooking and eating together.
+                        </p>
+                        <img src="assets/img/pho-bowl.png" alt="Pho" class="img-fluid rounded mb-4" style="max-height: 300px;">
+                        <div class="mt-4">
+                            <h4 class="text-warning">Only $10 per bowl!</h4>
+                            <p class="text-white-50">Vegetarian option available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Registration Options -->
+        <section id="register" class="registration-options">
+            <div class="container px-4 px-lg-5">
+                <h2 class="text-center mb-5">Get Involved</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-store fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Vendor Registration</h4>
+                                <p class="card-text">Reserve your spot as a vendor at our Trunk or Treat event. Share your products with our community.</p>
+                                <a href="https://forms.gle/vendorregistration" class="btn btn-custom">Register as Vendor</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-music fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Talent Registration</h4>
+                                <p class="card-text">Showcase your talent! We're looking for performers to entertain our guests throughout the event.</p>
+                                <a href="https://forms.gle/talentregistration" class="btn btn-custom">Register as Performer</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-car fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Car Show Registration</h4>
+                                <p class="card-text">Show off your vehicle! Register for our car show and be part of the Trunk or Treat festivities.</p>
+                                <a href="https://forms.gle/carshowregistration" class="btn btn-custom">Register Your Vehicle</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <div class="card">
+                            <div class="card-body">
+                                <i class="fas fa-hands-helping fa-3x mb-3 text-primary"></i>
+                                <h4 class="card-title">Volunteer Opportunities</h4>
+                                <p class="card-text">We need volunteers to make this event a success! Sign up to help with setup, activities, or cleanup.</p>
+                                <a href="https://forms.gle/volunteerregistration" class="btn btn-custom">Volunteer Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section bg-black">
+            <div class="container px-4 px-lg-5">
+                <h2 class="text-white text-center mb-5">Contact Us</h2>
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-envelope text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Email</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50"><a href="mailto:events@hopefulencounter.org">events@hopefulencounter.org</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fas fa-phone-alt text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Phone</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">+1 (559) 296-8231</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <i class="fab fa-facebook-messenger text-primary mb-2"></i>
+                                <h4 class="text-uppercase m-0">Social Media</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">
+                                    <a href="https://www.facebook.com/hopefulencounter/">Message us on Facebook</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="social d-flex justify-content-center mt-4">
+                    <a class="mx-2" href="https://www.instagram.com/hopefulencounter/"><i class="fab fa-instagram"></i></a>
+                    <a class="mx-2" href="https://www.facebook.com/hopefulencounter/"><i class="fab fa-facebook-f"></i></a>
+                    <a class="mx-2" href="https://www.youtube.com/channel/UC184AGyYuj8jJMzafPNc9cQ"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer bg-black small text-center text-white-50">
+            <div class="container px-4 px-lg-5">
+                <p>Copyright &copy; A Hopeful Encounter, Inc. 2025</p>
+                <p>3253 E Shields Ave, Fresno, CA 93726</p>
+                <p><a href="https://hopefulencounter.org" class="text-white-50">Return to Main Website</a></p>
+            </div>
+        </footer>
+        
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Countdown Timer Script -->
+        <script>
+            // Set the date we're counting down to
+            var countDownDate = new Date("Oct 10, 2025 17:00:00").getTime();
+            
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+            
+                // Get today's date and time
+                var now = new Date().getTime();
+                
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+                
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result in the corresponding elements
+                document.getElementById("days").innerHTML = days;
+                document.getElementById("hours").innerHTML = hours;
+                document.getElementById("minutes").innerHTML = minutes;
+                document.getElementById("seconds").innerHTML = seconds;
+                
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("days").innerHTML = "0";
+                    document.getElementById("hours").innerHTML = "0";
+                    document.getElementById("minutes").innerHTML = "0";
+                    document.getElementById("seconds").innerHTML = "0";
+                }
+            }, 1000);
+        </script>
+    </body>
+</html>
