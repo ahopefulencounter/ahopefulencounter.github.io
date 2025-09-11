@@ -16,14 +16,184 @@
         <link href="css/styles.css" rel="stylesheet" />
                 <!-- Custom CSS -->
                 <style>
-                    .profile-pic {
-                        width: 150px;
-                        height: 150px;
-                        object-fit: cover;
-                        border-radius: 50%;
-                        border: 2px solid #fff;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    }
+  :root {
+            --primary: #2c5aa0;
+            --secondary: #6a1b9a;
+            --accent: #d81b60;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+        
+        .staff-directory {
+            background: linear-gradient(to bottom, #f0f4f8, #e8ecf2);
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+        }
+        
+        .staff-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+            margin-bottom: 30px;
+        }
+        
+        .staff-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .staff-img-container {
+            position: relative;
+            overflow: hidden;
+            height: 420px;
+        }
+        
+        .staff-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .staff-card:hover .staff-img {
+            transform: scale(1.05);
+        }
+        
+        .staff-info {
+            padding: 20px;
+        }
+        
+        .staff-name {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 1.25rem;
+        }
+        
+        .staff-role {
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .staff-contact {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        
+        .contact-item i {
+            margin-right: 10px;
+            color: var(--accent);
+            width: 16px;
+        }
+        
+        .leadership-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        
+        .team-description {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--gray);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .unified-team {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+        
+        .unified-title {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .team-values {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .value-item {
+            text-align: center;
+            width: 200px;
+            margin: 15px;
+        }
+        
+        .value-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .staff-img-container {
+                height: 180px;
+            }
+            
+            .team-values {
+                flex-direction: column;
+                align-items: center;
+            }
+        }   
                 </style>
     </head>
     <body id="page-top">
@@ -165,62 +335,177 @@
                 </div>         
             </div>
         </section>
-        <!-- Meet Our Team-->
-        <section class="about-section text-center" id="team">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-lg-8">
-                        <h2 class="text-white mb-4">Meet Our Team</h2>
-                            <div class="container mt-5">
-                                <div class="row text-center">
-                                    <div class="col-md-4">
-                                        <img src="assets/img/susan_xiong.png" alt="Susan Xiong" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Susan Xiong</h5>
-                                        <p class="text-white-50">Founder & CEO</p>
+  <!-- Professional Staff Directory -->
+    <section class="staff-directory" id="team">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h2 class="section-title">Our Team</h2>
+                    <p class="team-description">
+                        At our Community-Based Organization, we work as one cohesive team dedicated to serving our community. 
+                        Each member brings unique skills and perspectives, but we share a common mission and work collaboratively 
+                        to achieve our goals.
+                    </p>
+                    
+                    
+                    <div class="row">
+                        <!-- Team Member 1 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/susan_portrait.webp" alt="Susan Xiong" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Susan Xiong</h5>
+                                    <p class="staff-role">Founder & Chief Executive Officer</p>
+                                    <div class="staff-contact">
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i> &nbsp;
+                                            <span><a href="susanxiong@hopefulencounter.org">susanxiong@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/mcnight_thao.png" alt="McNight Thao" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">McNight Thao</h5>
-                                        <p class="text-white-50">Director of Dynamic Development</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 2 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/mcnight_portrait.webp" alt="McNight Thao" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">McNight Thao</h5>
+                                    <p class="staff-role">Director of Program Development</p>
+                                    <div class="staff-contact">
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i> &nbsp;
+                                            <span><a href="mcnight@hopefulencounter.org">mcnight@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/arick_xiong.png" alt="Arick Xiong" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Arick Xiong</h5>
-                                        <p class="text-white-50">MS, AMFT Mental Health Specialist</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 3 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/arick_portrait.webp" alt="Arick Xiong" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Arick Xiong</h5>
+                                    <p class="staff-role">Mental Health Specialist, AMFT</p>
+                                    <div class="staff-contact">                                        
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i> &nbsp;
+                                            <span><a href="arickxiong@hopefulencounter.org">arickxiong@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/maikou_xiong.png" alt="Maikou Xiong" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Maikou Xiong</h5>
-                                        <p class="text-white-50">Mental Health Specialist</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 4 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/maikou_portrait.webp" alt="Maikou Xiong" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Maikou Xiong</h5>
+                                    <p class="staff-role">Mental Health Specialist</p>
+                                    <div class="staff-contact">                                        
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i> &nbsp;
+                                            <span><a href="maikou@hopefulencounter.org">maikou@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/kongtxou_xiong.png" alt="Kongtxou Xiong" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Kongtxou Xiong</h5>
-                                        <p class="text-white-50">Cultural Wealth Strategist</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 5 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/kongtxou_portrait.webp" alt="Kongtxou Xiong" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Kongtxou Xiong</h5>
+                                    <p class="staff-role">Cultural Wealth Strategist</p>
+                                    <div class="staff-contact">
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i>&nbsp;
+                                            <span><a href="kongtxou@hopefulencounter.org">kongtxou@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/kristy_xiong.png" alt="Kristy Xiong" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Kristy Xiong</h5>
-                                        <p class="text-white-50">Peer Support Navigator</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 6 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/kristy_portrait.webp" alt="Kristy Xiong" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Kristy Xiong</h5>
+                                    <p class="staff-role">Peer Support Navigator</p>
+                                    <div class="staff-contact">
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i>&nbsp;
+                                            <span><a href="kristy@hopefulencounter.org">kristy@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/stacey_yang.png" alt="Stacey Yang" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Stacey Yang</h5>
-                                        <p class="text-white-50">Education & Outreach Coordinator</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 7 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/stacey_portrait.webp" alt="Stacey Yang" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Stacey Yang</h5>
+                                    <p class="staff-role">Education Outreach Coordinator</p>
+                                    <div class="staff-contact">
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i>&nbsp;
+                                            <span><a href="mailto:syang@hopefulencounter.org">syang@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <img src="assets/img/kalvin_xiong.png" alt="Kalvin Xiong" class="profile-pic mx-auto d-block">
-                                        <h5 class="mt-3 text-white">Kalvin Xiong</h5>
-                                        <p class="text-white-50">Music Maestro</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Team Member 8 -->
+                        <div class="col-md-6 col-lg-4">
+                            <div class="staff-card">
+                                <div class="staff-img-container">
+                                    <img src="assets/img/kalvin_portrait.webp" alt="Kalvin Xiong" class="staff-img">
+                                </div>
+                                <div class="staff-info">
+                                    <h5 class="staff-name">Kalvin Xiong</h5>
+                                    <p class="staff-role">Music Maestro</p>
+                                    <div class="staff-contact">
+                                        <div class="contact-item">
+                                            <i class="fas fa-envelope"></i>&nbsp;
+                                            <span><a href="mailto:kxiong@hopefulencounter.org">kxiong@hopefulencounter.org</a></span>
+                                        </div>
                                     </div>
-                                <!-- Add more team members here as needed -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+
         <!-- Signup-->
         <section class="signup-section" id="signup">
             <div class="container px-4 px-lg-5">
@@ -287,7 +572,7 @@
             </div>
         </section>
         <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; A Hopeful Encounter, Inc. 2024</div></footer>
+        <footer class="footer bg-black small text-center text-white-50"><div class="container px-4 px-lg-5">Copyright &copy; A Hopeful Encounter, Inc. 2025</div></footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
