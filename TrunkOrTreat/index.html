@@ -110,6 +110,126 @@
 
 
         </style>
+        <script>
+    // Bat swarm functionality
+function createBatSwarm() {
+    // Create container for bats
+    const batContainer = document.createElement('div');
+    batContainer.id = 'bat-swarm-container';
+    batContainer.style.position = 'fixed';
+    batContainer.style.top = '0';
+    batContainer.style.left = '0';
+    batContainer.style.width = '100%';
+    batContainer.style.height = '100%';
+    batContainer.style.pointerEvents = 'none';
+    batContainer.style.zIndex = '9999';
+    document.body.appendChild(batContainer);
+
+    // Create 50 bats (adjust number as needed)
+    const batCount = 50;
+    const bats = [];
+
+    for (let i = 0; i < batCount; i++) {
+        const bat = document.createElement('div');
+        bat.innerHTML = '🦇';
+        bat.style.position = 'absolute';
+        bat.style.fontSize = Math.random() * 20 + 15 + 'px'; // 15-35px
+        bat.style.opacity = '0.7';
+        bat.style.userSelect = 'none';
+        
+        // Random starting position
+        bat.style.left = Math.random() * 100 + 'vw';
+        bat.style.top = Math.random() * 100 + 'vh';
+        
+        batContainer.appendChild(bat);
+        bats.push({
+            element: bat,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            speedX: (Math.random() - 0.5) * 4,
+            speedY: (Math.random() - 0.5) * 4,
+            amplitude: Math.random() * 2 + 1,
+            frequency: Math.random() * 0.1 + 0.05
+        });
+    }
+
+    // Animation function
+    let startTime = Date.now();
+    function animateBats() {
+        const currentTime = Date.now();
+        const elapsed = (currentTime - startTime) / 1000;
+        
+        bats.forEach((bat, index) => {
+            // Update position with wave-like motion
+            bat.x += bat.speedX;
+            bat.y += bat.speedY + Math.sin(elapsed * bat.frequency * 10) * bat.amplitude;
+            
+            // Wrap around screen edges
+            if (bat.x > window.innerWidth) bat.x = 0;
+            if (bat.x < 0) bat.x = window.innerWidth;
+            if (bat.y > window.innerHeight) bat.y = 0;
+            if (bat.y < 0) bat.y = window.innerHeight;
+            
+            // Update bat position
+            bat.element.style.left = bat.x + 'px';
+            bat.element.style.top = bat.y + 'px';
+            
+            // Slight rotation for flying effect
+            bat.element.style.transform = `rotate(${Math.sin(elapsed * bat.frequency * 5) * 10}deg)`;
+        });
+
+        // Stop animation after 5 seconds
+        if (elapsed < 5) {
+            requestAnimationFrame(animateBats);
+        } else {
+            removeBatSwarm();
+        }
+    }
+
+    // Start animation
+    animateBats();
+
+    return batContainer;
+}
+
+function removeBatSwarm() {
+    const batContainer = document.getElementById('bat-swarm-container');
+    if (batContainer) {
+        // Add fade out effect
+        batContainer.style.transition = 'opacity 1s ease-out';
+        batContainer.style.opacity = '0';
+        
+        setTimeout(() => {
+            if (batContainer.parentNode) {
+                batContainer.parentNode.removeChild(batContainer);
+            }
+        }, 1000);
+    }
+}
+
+// Start the bat swarm after 5 seconds (5,000 milliseconds)
+setTimeout(() => {
+    createBatSwarm();
+}, 5000);
+
+// Optional: Add CSS for smoother animation
+const batStyles = `
+    @keyframes batFlap {
+        0% { transform: rotate(-10deg) scaleX(1); }
+        50% { transform: rotate(10deg) scaleX(0.8); }
+        100% { transform: rotate(-10deg) scaleX(1); }
+    }
+    
+    .bat-flap {
+        animation: batFlap 0.3s infinite;
+    }
+`;
+
+// Add styles to document
+const styleSheet = document.createElement('style');
+styleSheet.textContent = batStyles;
+document.head.appendChild(styleSheet);
+        </script>
     </head>
     <body id="page-top">
         <!-- Navigation-->
