@@ -3,48 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Youth Advisory Board | Yearbook & Activities</title>
+    <title>Youth Advisory Board | Comic Book Yearbook</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #3a57a5;
-            --secondary: #9c1c72;
-            --accent: #ff6b35;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --yearbook-blue: #2c3e6b;
-            --yearbook-gold: #ffd700;
+            --primary: #e63946;
+            --secondary: #457b9d;
+            --accent: #f9a826;
+            --light: #f1faee;
+            --dark: #1d3557;
+            --comic-red: #e63946;
+            --comic-blue: #457b9d;
+            --comic-yellow: #f9a826;
+            --comic-purple: #9b5de5;
+            --comic-green: #2a9d8f;
         }
         
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: #333;
-            background-color: #f5f7fb;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233a57a5' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-color: var(--light);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e63946' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .comic-border {
+            border: 4px solid var(--dark);
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .comic-border::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 3px solid var(--comic-red);
+            z-index: -1;
         }
         
         .navbar {
-            background: linear-gradient(90deg, var(--yearbook-blue) 0%, var(--primary) 100%);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(90deg, var(--comic-red) 0%, var(--comic-purple) 100%);
+            box-shadow: 0 4px 0 var(--dark);
+            border-bottom: 3px solid var(--dark);
         }
         
         .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
+            font-family: 'Bangers', cursive;
+            font-weight: 400;
             color: white !important;
-            font-size: 1.5rem;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 var(--dark);
         }
         
         .nav-link {
-            color: rgba(255, 255, 255, 0.85) !important;
-            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9) !important;
+            font-weight: 600;
             transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
         }
         
         .nav-link:hover {
-            color: var(--yearbook-gold) !important;
+            color: var(--comic-yellow) !important;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--comic-yellow);
+            transition: width 0.3s;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
         }
         
         .yearbook-section, .gallery-section {
@@ -54,19 +95,33 @@
             overflow: hidden;
         }
         
+        .yearbook-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e63946' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+        }
+        
         .gallery-section {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
         
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--yearbook-blue);
+            font-family: 'Bangers', cursive;
+            font-weight: 400;
+            color: var(--comic-red);
             position: relative;
             padding-bottom: 15px;
             margin-bottom: 40px;
             text-align: center;
-            font-size: 2.8rem;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 var(--comic-yellow);
+            z-index: 1;
         }
         
         .section-title::after {
@@ -75,44 +130,50 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
-            height: 4px;
-            background: var(--yearbook-gold);
-            border-radius: 2px;
+            width: 200px;
+            height: 6px;
+            background: var(--comic-blue);
+            border-radius: 3px;
+            box-shadow: 2px 2px 0 var(--dark);
         }
         
         .section-subtitle {
             text-align: center;
-            color: var(--secondary);
+            color: var(--comic-purple);
             margin-bottom: 50px;
             font-size: 1.2rem;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
         
         .yearbook-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.2);
             transition: all 0.4s ease;
             height: 100%;
             margin-bottom: 30px;
             position: relative;
-            border: 1px solid #eaeaea;
+            border: 3px solid var(--dark);
+            z-index: 1;
         }
         
         .yearbook-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px) rotate(1deg);
+            box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.2);
         }
         
         .yearbook-img-container {
             position: relative;
             overflow: hidden;
             height: 280px;
-            background: linear-gradient(135deg, var(--yearbook-blue) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--comic-blue) 0%, var(--comic-purple) 100%);
+            border-bottom: 3px solid var(--dark);
         }
         
         .yearbook-img {
@@ -120,39 +181,52 @@
             height: 100%;
             object-fit: cover;
             transition: all 0.5s ease;
+            filter: saturate(1.2) contrast(1.1);
         }
         
         .yearbook-card:hover .yearbook-img {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
         
         .yearbook-info {
             padding: 25px;
             position: relative;
+            background: white;
         }
         
         .member-name {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--yearbook-blue);
+            font-family: 'Bangers', cursive;
+            font-weight: 400;
+            color: var(--comic-red);
             margin-bottom: 5px;
-            font-size: 1.4rem;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 0 var(--dark);
         }
         
         .member-role {
-            color: var(--secondary);
+            color: var(--comic-blue);
             font-weight: 600;
             margin-bottom: 15px;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            background: var(--comic-yellow);
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            border: 2px solid var(--dark);
         }
         
         .member-quote {
             font-style: italic;
-            color: #666;
-            border-left: 3px solid var(--yearbook-gold);
+            color: var(--comic-purple);
+            border-left: 4px solid var(--comic-green);
             padding-left: 15px;
             margin: 15px 0;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            background: rgba(249, 168, 38, 0.1);
+            padding: 10px 15px;
+            border-radius: 0 8px 8px 0;
         }
         
         .member-interests {
@@ -163,166 +237,179 @@
         }
         
         .interest-tag {
-            background: #f0f4ff;
-            color: var(--yearbook-blue);
-            padding: 4px 10px;
+            background: var(--comic-green);
+            color: white;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 600;
+            border: 2px solid var(--dark);
+            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
         }
         
         .yearbook-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: var(--yearbook-gold);
-            color: var(--yearbook-blue);
-            padding: 6px 12px;
+            background: var(--comic-yellow);
+            color: var(--dark);
+            padding: 8px 15px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.8rem;
             font-weight: 700;
             z-index: 10;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 3px 3px 0 var(--dark);
+            border: 2px solid var(--dark);
+            font-family: 'Poppins', sans-serif;
         }
         
-        .gradient-bg {
-            background: linear-gradient(135deg, var(--yearbook-blue) 0%, var(--secondary) 100%);
-            padding: 60px 0;
-            color: white;
-            margin: 60px 0;
+        .comic-panel {
+            background: white;
+            border: 4px solid var(--dark);
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin: 20px 0;
             position: relative;
-            overflow: hidden;
         }
         
-        .gradient-bg::before {
+        .comic-panel::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid var(--comic-red);
+            z-index: -1;
         }
         
-        .yearbook-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        
-        .yearbook-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            color: white;
-        }
-        
-        .yearbook-subtitle {
-            font-size: 1.3rem;
-            opacity: 0.9;
-        }
-        
-        .signature-area {
-            height: 80px;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 8px;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-style: italic;
-        }
-        
-        /* Gallery Styles */
-        .gallery-filters {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .filter-btn {
+        .comic-speech-bubble {
+            position: relative;
             background: white;
-            border: 2px solid var(--yearbook-blue);
-            color: var(--yearbook-blue);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 600;
-            transition: all 0.3s;
+            border: 3px solid var(--dark);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
         }
         
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--yearbook-blue);
-            color: white;
+        .comic-speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 20px;
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: white transparent;
+            filter: drop-shadow(2px 2px 0 var(--dark));
         }
         
-        .gallery-item {
-            margin-bottom: 30px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s;
-            background: white;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .gallery-img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .gallery-info {
-            padding: 20px;
-        }
-        
-        .gallery-title {
-            font-weight: 700;
-            color: var(--yearbook-blue);
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .gallery-date {
-            color: var(--secondary);
-            font-size: 0.85rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-        
-        .gallery-desc {
-            color: #666;
-            font-size: 0.9rem;
+        .comic-speech-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 18px;
+            border-width: 17px 17px 0;
+            border-style: solid;
+            border-color: var(--dark) transparent;
         }
         
         .stats-section {
             background: white;
             padding: 60px 0;
             text-align: center;
+            border-top: 5px solid var(--comic-red);
+            border-bottom: 5px solid var(--comic-blue);
         }
         
         .stat-number {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
-            color: var(--yearbook-blue);
+            color: var(--comic-red);
             margin-bottom: 10px;
+            font-family: 'Bangers', cursive;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 var(--comic-yellow);
         }
         
         .stat-label {
-            color: var(--secondary);
+            color: var(--comic-blue);
             font-weight: 600;
+            font-size: 1.1rem;
         }
         
         footer {
-            background: var(--yearbook-blue);
+            background: var(--comic-blue);
             color: white;
             padding: 40px 0;
             text-align: center;
+            border-top: 5px solid var(--comic-red);
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: repeating-linear-gradient(45deg, transparent, transparent 10px, var(--comic-yellow) 10px, var(--comic-yellow) 20px);
+        }
+        
+        footer h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0 var(--dark);
+        }
+        
+        .pow-effect {
+            display: inline-block;
+            font-family: 'Bangers', cursive;
+            font-size: 2rem;
+            color: var(--comic-red);
+            transform: rotate(-10deg);
+            text-shadow: 3px 3px 0 var(--dark);
+            margin: 0 10px;
+        }
+        
+        .action-button {
+            background: var(--comic-red);
+            color: white;
+            border: 3px solid var(--dark);
+            padding: 10px 25px;
+            font-weight: 700;
+            border-radius: 30px;
+            box-shadow: 4px 4px 0 var(--dark);
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 6px 0 var(--dark);
+            background: var(--comic-purple);
+        }
+        
+        .comic-strip {
+            background: white;
+            border: 4px solid var(--dark);
+            padding: 20px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .comic-strip::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid var(--comic-yellow);
+            z-index: -1;
         }
         
         @media (max-width: 768px) {
@@ -331,11 +418,11 @@
             }
             
             .section-title {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
-            .yearbook-title {
-                font-size: 2.5rem;
+            .member-name {
+                font-size: 1.5rem;
             }
         }
     </style>
@@ -344,7 +431,9 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">Youth Advisory Board</a>
+            <a class="navbar-brand" href="#">
+                <span class="pow-effect">POW!</span> Youth Advisory Board
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -354,7 +443,7 @@
                         <a class="nav-link" href="#yearbook">Yearbook</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#gallery">Activities Gallery</a>
+                        <a class="nav-link" href="#gallery">Activities</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#stats">Our Impact</a>
@@ -372,8 +461,13 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <h2 class="section-title">Youth Advisory Board</h2>
-                    <p class="section-subtitle">Meet the passionate young leaders who are shaping our community's future through innovation, dedication, and collaborative spirit.</p>
+                    <h2 class="section-title">YOUTH ADVISORY BOARD</h2>
+                    <p class="section-subtitle">Meet the <span class="pow-effect">SUPER</span> young leaders who are shaping our community's future through innovation, dedication, and collaborative spirit!</p>
+                    
+                    <div class="comic-strip text-center mb-5">
+                        <h3 class="mb-3" style="color: var(--comic-purple); font-family: 'Bangers', cursive; font-size: 2rem;">OUR HEROES OF CHANGE!</h3>
+                        <p>These extraordinary young people are making a real difference in our community with their unique superpowers!</p>
+                    </div>
                     
                     <div class="row">
                         <!-- Member 1 -->
@@ -381,12 +475,14 @@
                             <div class="yearbook-card">
                                 <div class="yearbook-img-container">
                                     <img src="https://placehold.co/400x500/3a57a5/FFFFFF?text=Alex+Kim" alt="Alex Kim" class="yearbook-img">
-                                    <div class="yearbook-badge">President</div>
+                                    <div class="yearbook-badge">PRESIDENT</div>
                                 </div>
                                 <div class="yearbook-info">
-                                    <h5 class="member-name">Alex Kim</h5>
+                                    <h5 class="member-name">ALEX KIM</h5>
                                     <p class="member-role">Senior at West High School</p>
-                                    <p class="member-quote">"Be the change you wish to see in the world."</p>
+                                    <div class="comic-speech-bubble">
+                                        <p class="member-quote">"Be the change you wish to see in the world."</p>
+                                    </div>
                                     <p>Passionate about community service and environmental advocacy. Led the citywide recycling initiative.</p>
                                     <div class="member-interests">
                                         <span class="interest-tag">Leadership</span>
@@ -402,12 +498,14 @@
                             <div class="yearbook-card">
                                 <div class="yearbook-img-container">
                                     <img src="https://placehold.co/400x500/3a57a5/FFFFFF?text=Maya+Patel" alt="Maya Patel" class="yearbook-img">
-                                    <div class="yearbook-badge">VP of Outreach</div>
+                                    <div class="yearbook-badge">VP OF OUTREACH</div>
                                 </div>
                                 <div class="yearbook-info">
-                                    <h5 class="member-name">Maya Patel</h5>
+                                    <h5 class="member-name">MAYA PATEL</h5>
                                     <p class="member-role">Junior at East High School</p>
-                                    <p class="member-quote">"Your voice matters - use it to uplift others."</p>
+                                    <div class="comic-speech-bubble">
+                                        <p class="member-quote">"Your voice matters - use it to uplift others."</p>
+                                    </div>
                                     <p>Founded the Youth Mentorship Program connecting high schoolers with middle school students.</p>
                                     <div class="member-interests">
                                         <span class="interest-tag">Mentoring</span>
@@ -423,12 +521,14 @@
                             <div class="yearbook-card">
                                 <div class="yearbook-img-container">
                                     <img src="https://placehold.co/400x500/3a57a5/FFFFFF?text=Jordan+Rivera" alt="Jordan Rivera" class="yearbook-img">
-                                    <div class="yearbook-badge">Tech Chair</div>
+                                    <div class="yearbook-badge">TECH CHAIR</div>
                                 </div>
                                 <div class="yearbook-info">
-                                    <h5 class="member-name">Jordan Rivera</h5>
+                                    <h5 class="member-name">JORDAN RIVERA</h5>
                                     <p class="member-role">Senior at North High School</p>
-                                    <p class="member-quote">"Innovation is seeing what everyone has seen but thinking what no one has thought."</p>
+                                    <div class="comic-speech-bubble">
+                                        <p class="member-quote">"Innovation is seeing what everyone has seen but thinking what no one has thought."</p>
+                                    </div>
                                     <p>Developed the community app that connects volunteers with local organizations.</p>
                                     <div class="member-interests">
                                         <span class="interest-tag">Coding</span>
@@ -444,12 +544,14 @@
                             <div class="yearbook-card">
                                 <div class="yearbook-img-container">
                                     <img src="https://placehold.co/400x500/3a57a5/FFFFFF?text=Taylor+Chen" alt="Taylor Chen" class="yearbook-img">
-                                    <div class="yearbook-badge">Events Coordinator</div>
+                                    <div class="yearbook-badge">EVENTS COORDINATOR</div>
                                 </div>
                                 <div class="yearbook-info">
-                                    <h5 class="member-name">Taylor Chen</h5>
+                                    <h5 class="member-name">TAYLOR CHEN</h5>
                                     <p class="member-role">Junior at South High School</p>
-                                    <p class="member-quote">"Community is not just a place, it's a feeling of belonging."</p>
+                                    <div class="comic-speech-bubble">
+                                        <p class="member-quote">"Community is not just a place, it's a feeling of belonging."</p>
+                                    </div>
                                     <p>Organized the annual Youth Summit that brought together 200+ students from across the city.</p>
                                     <div class="member-interests">
                                         <span class="interest-tag">Event Planning</span>
@@ -465,12 +567,14 @@
                             <div class="yearbook-card">
                                 <div class="yearbook-img-container">
                                     <img src="https://placehold.co/400x500/3a57a5/FFFFFF?text=Samira+Jones" alt="Samira Jones" class="yearbook-img">
-                                    <div class="yearbook-badge">Communications</div>
+                                    <div class="yearbook-badge">COMMUNICATIONS</div>
                                 </div>
                                 <div class="yearbook-info">
-                                    <h5 class="member-name">Samira Jones</h5>
+                                    <h5 class="member-name">SAMIRA JONES</h5>
                                     <p class="member-role">Sophomore at Central High School</p>
-                                    <p class="member-quote">"Words have power - use them to inspire and unite."</p>
+                                    <div class="comic-speech-bubble">
+                                        <p class="member-quote">"Words have power - use them to inspire and unite."</p>
+                                    </div>
                                     <p>Manages all social media channels and created the monthly youth newsletter with 500+ subscribers.</p>
                                     <div class="member-interests">
                                         <span class="interest-tag">Journalism</span>
@@ -486,12 +590,14 @@
                             <div class="yearbook-card">
                                 <div class="yearbook-img-container">
                                     <img src="https://placehold.co/400x500/3a57a5/FFFFFF?text=David+Nguyen" alt="David Nguyen" class="yearbook-img">
-                                    <div class="yearbook-badge">Treasurer</div>
+                                    <div class="yearbook-badge">TREASURER</div>
                                 </div>
                                 <div class="yearbook-info">
-                                    <h5 class="member-name">David Nguyen</h5>
+                                    <h5 class="member-name">DAVID NGUYEN</h5>
                                     <p class="member-role">Senior at West High School</p>
-                                    <p class="member-quote">"Numbers tell a story - make sure it's one of impact and integrity."</p>
+                                    <div class="comic-speech-bubble">
+                                        <p class="member-quote">"Numbers tell a story - make sure it's one of impact and integrity."</p>
+                                    </div>
                                     <p>Managed the budget for 5 community projects that impacted over 1,000 residents.</p>
                                     <div class="member-interests">
                                         <span class="interest-tag">Math</span>
@@ -502,15 +608,19 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="text-center mt-5">
+                        <button class="action-button">JOIN OUR TEAM OF HEROES!</button>
+                    </div>
                 </div>
             </div>
         </div>
- 
     </section>
-   <!-- Stats Section HIDDEN 
+
+   <!-- Stats Section -->
    <section class="stats-section" id="stats">
        <div class="container">
-           <h2 class="section-title">Our Impact</h2>
+           <h2 class="section-title">OUR <span class="pow-effect">AMAZING</span> IMPACT</h2>
            <div class="row">
                <div class="col-md-3 col-6 mb-4">
                    <div class="stat-number">250+</div>
@@ -531,101 +641,11 @@
            </div>
        </div>
    </section>
--->
-   <!-- Activities Gallery Section HIDDEN
-   <section class="gallery-section" id="gallery">
-       <div class="container">
-           <h2 class="section-title">Our Activities Gallery</h2>
-           <p class="section-subtitle">Explore the events, projects, and initiatives led by our Youth Advisory Board members.</p>
-           
-           <div class="gallery-filters">
-               <button class="filter-btn active" data-filter="all">All Activities</button>
-               <button class="filter-btn" data-filter="events">Events</button>
-               <button class="filter-btn" data-filter="projects">Projects</button>
-               <button class="filter-btn" data-filter="volunteer">Volunteering</button>
-           </div>
-           
-           <div class="row">
- -->
-               <!-- Activity 1 
-               <div class="col-md-6 col-lg-4" data-category="events">
-                   <div class="gallery-item">
-                       <img src="https://placehold.co/400x300/3a57a5/FFFFFF?text=Youth+Summit" alt="Youth Summit" class="gallery-img">
-                       <div class="gallery-info">
-                           <h5 class="gallery-title">Annual Youth Summit</h5>
-                           <span class="gallery-date">March 15, 2023</span>
-                           <p class="gallery-desc">Organized a full-day summit with workshops, speakers, and networking opportunities for 200+ youth.</p>
-                       </div>
-                   </div>
-               </div>
-               -->
-               <!-- Activity 2 
-               <div class="col-md-6 col-lg-4" data-category="projects">
-                   <div class="gallery-item">
-                       <img src="https://placehold.co/400x300/3a57a5/FFFFFF?text=Community+Garden" alt="Community Garden" class="gallery-img">
-                       <div class="gallery-info">
-                           <h5 class="gallery-title">Community Garden Initiative</h5>
-                           <span class="gallery-date">April - September 2023</span>
-                           <p class="gallery-desc">Transformed an empty lot into a thriving community garden with vegetable patches and flowers.</p>
-                       </div>
-                   </div>
-               </div>
-               -->
-               <!-- Activity 3 
-               <div class="col-md-6 col-lg-4" data-category="volunteer">
-                   <div class="gallery-item">
-                       <img src="https://placehold.co/400x300/3a57a5/FFFFFF?text=Food+Drive" alt="Food Drive" class="gallery-img">
-                       <div class="gallery-info">
-                           <h5 class="gallery-title">Holiday Food Drive</h5>
-                           <span class="gallery-date">December 2022</span>
-                           <p class="gallery-desc">Collected and distributed over 500 meals to families in need during the holiday season.</p>
-                       </div>
-                   </div>
-               </div>
-               -->
-               <!-- Activity 4 
-               <div class="col-md-6 col-lg-4" data-category="events">
-                   <div class="gallery-item">
-                       <img src="https://placehold.co/400x300/3a57a5/FFFFFF?text=Leadership+Workshop" alt="Leadership Workshop" class="gallery-img">
-                       <div class="gallery-info">
-                           <h5 class="gallery-title">Leadership Workshop Series</h5>
-                           <span class="gallery-date">January - February 2023</span>
-                           <p class="gallery-desc">Hosted a 4-part workshop series on leadership skills for middle and high school students.</p>
-                       </div>
-                   </div>
-               </div>
-               -->
-               <!-- Activity 5 
-               <div class="col-md-6 col-lg-4" data-category="projects">
-                   <div class="gallery-item">
-                       <img src="https://placehold.co/400x300/3a57a5/FFFFFF?text=Recycling+Program" alt="Recycling Program" class="gallery-img">
-                       <div class="gallery-info">
-                           <h5 class="gallery-title">School Recycling Program</h5>
-                           <span class="gallery-date">Ongoing</span>
-                           <p class="gallery-desc">Implemented recycling programs in 5 local schools, reducing waste by 40%.</p>
-                       </div>
-                   </div>
-               </div>
-               -->
-               <!-- Activity 6 
-               <div class="col-md-6 col-lg-4" data-category="volunteer">
-                   <div class="gallery-item">
-                       <img src="https://placehold.co/400x300/3a57a5/FFFFFF?text=Beach+Cleanup" alt="Beach Cleanup" class="gallery-img">
-                       <div class="gallery-info">
-                           <h5 class="gallery-title">Coastal Cleanup Day</h5>
-                           <span class="gallery-date">September 17, 2022</span>
-                           <p class="gallery-desc">Organized a beach cleanup with 75 volunteers, collecting over 200 pounds of trash.</p>
-                       </div>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </section>
--->
+
     <!-- Footer -->
     <footer id="contact">
         <div class="container">
-            <h1>Youth Advisory Board</h1>
+            <h1>YOUTH ADVISORY BOARD</h1>
             <div class="mt-4">
                 <p>Email: yab@community.org | Phone: (555) 123-YOUTH</p>
                 <p>123 Community Street, City, State 12345</p>
@@ -641,28 +661,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Simple filter functionality for the gallery
+        // Simple animation for comic elements
         document.addEventListener('DOMContentLoaded', function() {
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const galleryItems = document.querySelectorAll('.gallery-item');
+            const comicCards = document.querySelectorAll('.yearbook-card');
             
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    const filterValue = this.getAttribute('data-filter');
-                    
-                    galleryItems.forEach(item => {
-                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                            item.style.display = 'block';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    });
+            comicCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) rotate(1deg)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) rotate(0)';
+                });
+            });
+            
+            // Add "POW!" effect randomly
+            const powElements = document.querySelectorAll('.pow-effect');
+            powElements.forEach(el => {
+                el.addEventListener('click', function() {
+                    this.style.transform = 'scale(1.5) rotate(-15deg)';
+                    setTimeout(() => {
+                        this.style.transform = 'rotate(-10deg)';
+                    }, 300);
                 });
             });
         });
