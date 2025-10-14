@@ -346,10 +346,6 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>BINGO ANIMATION</h1>
-        <div class="subtitle">75-Ball Game for Seniors</div>
-    </header>
     
     <div class="game-container">
         <div class="animation-section">
@@ -378,16 +374,11 @@
             </div>
         </div>
     </div>
-    
-    <footer>
-        <p>Designed for seniors with large, easy-to-read numbers and clear controls</p>
-    </footer>
 
     <!-- Full-screen animation overlay -->
     <div class="fullscreen-animation hidden" id="fullscreenAnimation">
-        <div class="drawing-text">Drawing a BINGO Ball...</div>
         <img class="animation-gif" id="animationGif" src="" alt="BINGO Animation">
-        <div class="countdown" id="countdown">3</div>
+        <div class="countdown" id="countdown">5</div>
     </div>
 
     <div class="confetti-container" id="confettiContainer"></div>
@@ -402,14 +393,19 @@
         
         // BINGO-themed GIFs (using placeholder service)
         const bingoGifs = [
-            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', // Bingo balls
-            'https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif', // Celebration
-            'https://media.giphy.com/media/3o7aD2s2ldRO7QLCk0/giphy.gif', // Spinning
-            'https://media.giphy.com/media/26uf759LlDftqZNVm/giphy.gif', // Numbers
-            'https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif', // Confetti
-            'https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif', // Bingo card
-            'https://media.giphy.com/media/3o7TKSha51ATTx9KzC/giphy.gif', // Dancing letters
-            'https://media.giphy.com/media/l0HU7JI1m1eEwz0A0/giphy.gif'  // Bingo pattern
+            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', // The Office Dance
+            'https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif', // Homer Celebration
+            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWQ3OTNkMWxzbDUyZ2tybzV1Mnp2ZXNsM216azN1aWlnbmcwZmJjZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oFzmpzTfyABIX6JBm/giphy.gif', // BBBINGO
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenRuZ3pjZGl0NGF4YjlsdXNxZWphM3d2ZzZmcHg1Mjdld3FydTQ4MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/gpmARWm3Pwypq/giphy.gif', // Llama
+            'https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif', // Dolphins
+            'https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif', // Spongebob Thumbs-up
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3azdsYmtoMTRnZDE2eGd3a2JuMG95MGZrcGoyODkzM25zOXRodXNrdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/11kcEW8uNh8RwY/giphy.gif', // Dancing Baby
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3OXc3M3o4aTIxamk0eWFjdDN3YjVpdXJ3czRraTJ4ZzAzNTZuMWxsOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4N5vKioz1BNL4kVNQU/giphy.gif',  // Heels in Rural Village
+            'https://media1.tenor.com/m/PpUR00v9DFsAAAAd/hahmong-hmong.gif', // Leefong Dance
+            'https://media1.tenor.com/m/mXsMuwb62C0AAAAd/hmong-hmoob.gif', // Bee Monkey
+            'https://media1.tenor.com/m/Jc-5VRLcNwMAAAAd/hah-mong-hmong.gif', // Hmong Funny dance
+            'https://media1.tenor.com/m/3CyDm_YOsHwAAAAd/hmong-hmoob.gif', // Hmong Emotional
+            'https://media1.tenor.com/m/YYZK4RnCRmsAAAAd/yasmi-hmong.gif' //Yasmi
         ];
         
         // Initialize the game
@@ -487,13 +483,13 @@
             animationGif.src = bingoGifs[randomGifIndex];
             
             // Reset countdown
-            countdownElement.textContent = '3';
+            countdownElement.textContent = '5';
             
             // Show fullscreen animation
             fullscreenAnimation.classList.remove('hidden');
             
             // Start countdown
-            let countdown = 3;
+            let countdown = 5;
             countdownInterval = setInterval(() => {
                 countdown--;
                 countdownElement.textContent = countdown;
