@@ -263,6 +263,29 @@
             border-radius: 10px;
         }
         
+        .sound-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .sound-btn {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid #ffcc00;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .sound-btn:hover {
+            background: rgba(255, 204, 0, 0.3);
+        }
+        
         footer {
             text-align: center;
             margin-top: 40px;
@@ -362,6 +385,12 @@
                 <button class="reset" id="resetBtn">Reset</button>
             </div>
             
+            <div class="sound-controls">
+                <button class="sound-btn" id="testDrumrollBtn">Test Drumroll</button>
+                <button class="sound-btn" id="testTrumpetBtn">Test Trumpet</button>
+                <button class="sound-btn" id="muteBtn">🔊 Sound On</button>
+            </div>
+            
             <div class="counter">
                 Balls Drawn: <span id="ballsDrawn">0</span> / 75
             </div>
@@ -383,6 +412,10 @@
 
     <div class="confetti-container" id="confettiContainer"></div>
 
+    <footer>
+        <p>AHE Community BINGO Social - Have fun and good luck!</p>
+    </footer>
+
     <script>
         // Game state
         let calledNumbers = [];
@@ -390,46 +423,15 @@
         let ballsDrawn = 0;
         let isDrawing = false;
         let countdownInterval;
+        let isMuted = false;
         
-        // BINGO-themed GIFs (using placeholder service)
-        const bingoGifs = [
-            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif', // The Office Dance
-            'https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif', // Homer Celebration
-            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWQ3OTNkMWxzbDUyZ2tybzV1Mnp2ZXNsM216azN1aWlnbmcwZmJjZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oFzmpzTfyABIX6JBm/giphy.gif', // BBBINGO
-            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenRuZ3pjZGl0NGF4YjlsdXNxZWphM3d2ZzZmcHg1Mjdld3FydTQ4MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/gpmARWm3Pwypq/giphy.gif', // Llama
-            'https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif', // Dolphins
-            'https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif', // Spongebob Thumbs-up
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3azdsYmtoMTRnZDE2eGd3a2JuMG95MGZrcGoyODkzM25zOXRodXNrdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/11kcEW8uNh8RwY/giphy.gif', // Dancing Baby
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3OXc3M3o4aTIxamk0eWFjdDN3YjVpdXJ3czRraTJ4ZzAzNTZuMWxsOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4N5vKioz1BNL4kVNQU/giphy.gif',  // Heels in Rural Village
-            'https://media1.tenor.com/m/PpUR00v9DFsAAAAd/hahmong-hmong.gif', // Leefong Dance
-            'https://media1.tenor.com/m/mXsMuwb62C0AAAAd/hmong-hmoob.gif', // Bee Monkey
-            'https://media1.tenor.com/m/Jc-5VRLcNwMAAAAd/hah-mong-hmong.gif', // Hmong Funny dance
-            'https://media1.tenor.com/m/3CyDm_YOsHwAAAAd/hmong-hmoob.gif', // Hmong Emotional
-            'https://media1.tenor.com/m/YYZK4RnCRmsAAAAd/yasmi-hmong.gif', //Yasmi
-            'https://media1.tenor.com/m/oRK12ZuTlWoAAAAd/hmong-hmoob.gif', // Sheyee
-            'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWZxbHhmNjVxaDFnZ3V0NXB0MjdjMjB5N2JvcDlnaXAzZzVkNnlkaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ummeQH0c3jdm2o3Olp/giphy.gif', // Larry David
-            'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGEzaGM1dHo0c2l6bHlxMHp4eGl3cXhzaG4yaGdjczlmOG05cW01eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3tTg6UVj3mV6QmgURz/giphy.gif', // BINGO Ball
-            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm10OGQ4YXA1YzU5a243MHZwcnZsaHhndHJ6aWZ4YzEzb2xxMDl4eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DXFzuOpPXvUiI/giphy.gif', // Toby Maguire Tears
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dXM2OTV3NnpyMmFnbWh4am5mcnNrZDY0b2QzMTFnYzUyaWEwdzNtMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/NDDNJtpbMkfe0XKz1G/giphy.gif', // Meowth
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3aGkwZ3ZweTMxcDh4d2N1c2hpZ3B3ZGo0YWo0ZHpvYzQwYzNleG9saCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7bu4T1UFmOSiLFNm/giphy.gif', // BTS
-            'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXA2d21mamt5Yjg1ZGY4djBhcHVpaXNtaXNoMnc1OW50ZG95M2VnOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPsxfFjdaAKCnHa/giphy.gif', // BTS 2
-            'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGwwamFpbmdkdTh3NzRocHRlbnMyNHlra2RkaTNicm90cHAwMndnNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UEHPcX1oZt80U/giphy.gif', // Bruce Lee
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dnFndzJjeHJiMnE5ZDg0ZWdqY2pucGFzdjhyMzdsNDFlN2htbGs1dSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OJ2aZlbY9VhSw/giphy.gif', // Rush Hour
-            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3VuNGgydGVicWVic2h6MmgxeXEyMzJ6d3BvZzlvdzBranV4bDkyaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ltHnuTmX2THSuuDCwh/giphy.gif', // Kpop Demon Hunters
-            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3VuNGgydGVicWVic2h6MmgxeXEyMzJ6d3BvZzlvdzBranV4bDkyaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YCsHUROCUuGXpJJwTV/giphy.gif', // kpop Demon Hunters 2
-            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXpsaW54b2xud2pocXBmbGhjOGJtaDlkZjM3d291d2M2b3c0ZWRjZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4ajQEQgTHvKxNWGFCK/giphy.gif', // Demon Slayers
-            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmFjMWhpcDQyNmptM29pYXpwcmZvemlnam40Z2djaGdoN3VnZmNzaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ghCX1B38YFXAwttIkg/giphy.gif', // One Piece
-            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWxqYmR6OHBscmdpb2VwdXRwODVkZW8zaWpjYnZibGg4MTc3M3k0byZlcD12MV9naWZzX3NlYXJjaCZjdD1n/d5fMI9ftgQiGzoZoB9/giphy.gif', // Goku
-            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjNtMzVsMnozc3NmbTNtbm5oanlzanVubGR0NHVwODhqdDZvemUxNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MF12HtlamewVic5j16/giphy.gif', // Jet Li
-            'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDVwNGpnNnQ1dzAxODdkM2M2NGkzbm15d2E5b2Zmcmp6czZ0ejQwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yeabHeV9oPRh6/giphy.gif', // My Sassy Girl
-            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExamwwMzJ2MmprbXBvMXE0YnVleGt2eGZhOXRja2lseXdicGlzb2h2byZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UwGR4V1HJpXF5lfLjn/giphy.gif', // Wendy
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mjd4YXk2emt6em12am04MDdtdjRidG10ZXF6YjR5YjBlYWUybzVoNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZBasOGXvz760zOSqpx/giphy.gif', // Karina
-            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3b2Y4ZGttcHJ3OXY0MG9vZzBlaTNwY3JiNjRneWIyYnIyeHM3ZzB2NyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2D0W8LWjc4NnThlAvD/giphy.gif', // Karina x Winter
-            'https://media1.tenor.com/m/jPFYXQGavwQAAAAd/vampirehollie-ros%C3%A9-stan-twitter.gif', // Rose
-            'https://media1.tenor.com/m/E4CNjMOebw8AAAAC/laughing-baby.gif', // Laughing Baby
-            'https://media1.tenor.com/m/YdVZeorZIJgAAAAC/baby-laugh.gif', // Laughing Baby 2
-            'https://media1.tenor.com/m/BQcLgAaaDOIAAAAd/g-lstudios-hmong.gif' // Hmong Funny Dance 2
-        ];
+        // Audio
+        const drumrollSound = new Audio('../assets/sound/drum-roll-2-228358.mp3');
+        const trumpetSound = new Audio('../assets/sound/winning-218995.mp3');
+        
+        // Preload sounds
+        drumrollSound.preload = 'auto';
+        trumpetSound.preload = 'auto';
         
         // Initialize the game
         function initGame() {
@@ -455,6 +457,10 @@
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
+            
+            // Reset sounds
+            drumrollSound.currentTime = 0;
+            trumpetSound.currentTime = 0;
         }
         
         // Generate all possible BINGO numbers
@@ -511,6 +517,12 @@
             // Show fullscreen animation
             fullscreenAnimation.classList.remove('hidden');
             
+            // Start drumroll sound
+            if (!isMuted) {
+                drumrollSound.currentTime = 0;
+                drumrollSound.play().catch(e => console.log("Audio play failed:", e));
+            }
+            
             // Start countdown
             let countdown = 5;
             countdownInterval = setInterval(() => {
@@ -519,6 +531,12 @@
                 
                 if (countdown <= 0) {
                     clearInterval(countdownInterval);
+                    
+                    // Play trumpet sound
+                    if (!isMuted) {
+                        trumpetSound.currentTime = 0;
+                        trumpetSound.play().catch(e => console.log("Audio play failed:", e));
+                    }
                     
                     // Remove from available numbers
                     const ballIndex = availableNumbers.findIndex(b => 
@@ -700,6 +718,29 @@
             });
         }
         
+        // Toggle mute
+        function toggleMute() {
+            isMuted = !isMuted;
+            const muteBtn = document.getElementById('muteBtn');
+            muteBtn.textContent = isMuted ? '🔇 Sound Off' : '🔊 Sound On';
+        }
+        
+        // Test drumroll sound
+        function testDrumroll() {
+            if (!isMuted) {
+                drumrollSound.currentTime = 0;
+                drumrollSound.play().catch(e => console.log("Audio play failed:", e));
+            }
+        }
+        
+        // Test trumpet sound
+        function testTrumpet() {
+            if (!isMuted) {
+                trumpetSound.currentTime = 0;
+                trumpetSound.play().catch(e => console.log("Audio play failed:", e));
+            }
+        }
+        
         // Utility functions for color manipulation
         function darkenColor(color, percent) {
             const num = parseInt(color.slice(1), 16);
@@ -712,21 +753,53 @@
                 (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
         }
         
-        function lightenColor(color, percent) {
-            const num = parseInt(color.slice(1), 16);
-            const amt = Math.round(2.55 * percent);
-            const R = (num >> 16) + amt;
-            const G = (num >> 8 & 0x00FF) + amt;
-            const B = (num & 0x0000FF) + amt;
-            return "#" + (0x1000000 + (R > 255 ? 255 : R) * 0x10000 +
-                (G > 255 ? 255 : G) * 0x100 +
-                (B > 255 ? 255 : B)).toString(16).slice(1);
-        }
+        // BINGO-themed GIFs
+        const bingoGifs = [
+            'https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif',
+            'https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif',
+            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWQ3OTNkMWxzbDUyZ2tybzV1Mnp2ZXNsM216azN1aWlnbmcwZmJjZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oFzmpzTfyABIX6JBm/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExenRuZ3pjZGl0NGF4YjlsdXNxZWphM3d2ZzZmcHg1Mjdld3FydTQ4MCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/gpmARWm3Pwypq/giphy.gif',
+            'https://media.giphy.com/media/l0HlNQ03J5JxX6lva/giphy.gif',
+            'https://media.giphy.com/media/3o7abKhOpu0NwenH3O/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3azdsYmtoMTRnZDE2eGd3a2JuMG95MGZrcGoyODkzM25zOXRodXNrdSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/11kcEW8uNh8RwY/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3OXc3M3o4aTIxamk0eWFjdDN3YjVpdXJ3czRraTJ4ZzAzNTZuMWxsOSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/4N5vKioz1BNL4kVNQU/giphy.gif',
+            'https://media1.tenor.com/m/PpUR00v9DFsAAAAd/hahmong-hmong.gif',
+            'https://media1.tenor.com/m/mXsMuwb62C0AAAAd/hmong-hmoob.gif',
+            'https://media1.tenor.com/m/Jc-5VRLcNwMAAAAd/hah-mong-hmong.gif',
+            'https://media1.tenor.com/m/3CyDm_YOsHwAAAAd/hmong-hmoob.gif',
+            'https://media1.tenor.com/m/YYZK4RnCRmsAAAAd/yasmi-hmong.gif',
+            'https://media1.tenor.com/m/oRK12ZuTlWoAAAAd/hmong-hmoob.gif',
+            'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExOWZxbHhmNjVxaDFnZ3V0NXB0MjdjMjB5N2JvcDlnaXAzZzVkNnlkaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ummeQH0c3jdm2o3Olp/giphy.gif',
+            'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExMGEzaGM1dHo0c2l6bHlxMHp4eGl3cXhzaG4yaGdjczlmOG05cW01eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3tTg6UVj3mV6QmgURz/giphy.gif',
+            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExdm10OGQ4YXA1YzU5a243MHZwcnZsaHhndHJ6aWZ4YzEzb2xxMDl4eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/DXFzuOpPXvUiI/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dXM2OTV3NnpyMmFnbWh4am5mcnNrZDY0b2QzMTFnYzUyaWEwdzNtMiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/NDDNJtpbMkfe0XKz1G/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3aGkwZ3ZweTMxcDh4d2N1c2hpZ3B3ZGo0YWo0ZHpvYzQwYzNleG9saCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/3o7bu4T1UFmOSiLFNm/giphy.gif',
+            'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXA2d21mamt5Yjg1ZGY4djBhcHVpaXNtaXNoMnc1OW50ZG95M2VnOCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPsxfFjdaAKCnHa/giphy.gif',
+            'https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExaGwwamFpbmdkdTh3NzRocHRlbnMyNHlra2RkaTNicm90cHAwMndnNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/UEHPcX1oZt80U/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3dnFndzJjeHJiMnE5ZDg0ZWdqY2pucGFzdjhyMzdsNDFlN2htbGs1dSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/OJ2aZlbY9VhSw/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3VuNGgydGVicWVic2h6MmgxeXEyMzJ6d3BvZzlvdzBranV4bDkyaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ltHnuTmX2THSuuDCwh/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN3VuNGgydGVicWVic2h6MmgxeXEyMzJ6d3BvZzlvdzBranV4bDkyaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/YCsHUROCUuGXpJJwTV/giphy.gif',
+            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXpsaW54b2xud2pocXBmbGhjOGJtaDlkZjM3d291d2M2b3c0ZWRjZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4ajQEQgTHvKxNWGFCK/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmFjMWhpcDQyNmptM29pYXpwcmZvemlnam40Z2djaGdoN3VnZmNzaiZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ghCX1B38YFXAwttIkg/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWxqYmR6OHBscmdpb2VwdXRwODVkZW8zaWpjYnZibGg4MTc3M3k0byZlcD12MV9naWZzX3NlYXJjaCZjdD1n/d5fMI9ftgQiGzoZoB9/giphy.gif',
+            'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjNtMzVsMnozc3NmbTNtbm5oanlzanVubGR0NHVwODhqdDZvemUxNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MF12HtlamewVic5j16/giphy.gif',
+            'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDVwNGpnNnQ1dzAxODdkM2M2NGkzbm15d2E5b2Zmcmp6czZ0ejQwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/yeabHeV9oPRh6/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExamwwMzJ2MmprbXBvMXE0YnVleGt2eGZhOXRja2lseXdicGlzb2h2byZlcD12MV9naWZzX3NlYXJjaCZjdD1n/UwGR4V1HJpXF5lfLjn/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3Mjd4YXk2emt6em12am04MDdtdjRidG10ZXF6YjR5YjBlYWUybzVoNSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/ZBasOGXvz760zOSqpx/giphy.gif',
+            'https://media.giphy.com/media/v1.Y2lkPWVjZjA1ZTQ3b2Y4ZGttcHJ3OXY0MG9vZzBlaTNwY3JiNjRneWIyYnIyeHM3ZzB2NyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/2D0W8LWjc4NnThlAvD/giphy.gif',
+            'https://media1.tenor.com/m/jPFYXQGavwQAAAAd/vampirehollie-ros%C3%A9-stan-twitter.gif',
+            'https://media1.tenor.com/m/E4CNjMOebw8AAAAC/laughing-baby.gif',
+            'https://media1.tenor.com/m/YdVZeorZIJgAAAAC/baby-laugh.gif',
+            'https://media1.tenor.com/m/BQcLgAaaDOIAAAAd/g-lstudios-hmong.gif'
+        ];
         
         // Event listeners
         document.getElementById('drawBallBtn').addEventListener('click', drawBall);
         document.getElementById('undoBtn').addEventListener('click', undoLastBall);
         document.getElementById('resetBtn').addEventListener('click', initGame);
+        document.getElementById('muteBtn').addEventListener('click', toggleMute);
+        document.getElementById('testDrumrollBtn').addEventListener('click', testDrumroll);
+        document.getElementById('testTrumpetBtn').addEventListener('click', testTrumpet);
         
         // Initialize the game when page loads
         window.addEventListener('DOMContentLoaded', initGame);
