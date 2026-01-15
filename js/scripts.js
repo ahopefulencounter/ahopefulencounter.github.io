@@ -1,63 +1,73 @@
 /*!
-* Start Bootstrap - Grayscale v7.0.6 (https://startbootstrap.com/theme/grayscale)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-grayscale/blob/master/LICENSE)
+* A Hopeful Encounter – Custom Bootstrap 5 Navbar + Popup Script
 */
-//
-// Scripts
-// 
-    // Pop-up
-    document.addEventListener("DOMContentLoaded", function() {
-        setTimeout(function() {
-            var popup = document.getElementById("popup");
+
+// ---------------------------------------------
+// POP-UP
+// ---------------------------------------------
+document.addEventListener("DOMContentLoaded", function() {
+    // Show popup after 6 seconds
+    setTimeout(function() {
+        var popup = document.getElementById("popup");
+        if (popup) {
             popup.style.display = "flex";
-        }, 6000);
-    
-        var closeBtn = document.querySelector(".close-btn");
+        }
+    }, 6000);
+
+    // Close popup button
+    var closeBtn = document.querySelector(".close-btn");
+    if (closeBtn) {
         closeBtn.addEventListener("click", function() {
             var popup = document.getElementById("popup");
-            popup.style.display = "none";
+            if (popup) popup.style.display = "none";
         });
-    });
-window.addEventListener('DOMContentLoaded', event => {
+    }
+});
+
+
+// ---------------------------------------------
+// NAVBAR + SCROLL BEHAVIOR
+// ---------------------------------------------
+window.addEventListener('DOMContentLoaded', () => {
 
     // Navbar shrink function
-    var navbarShrink = function () {
-        const navbarCollapsible = document.body.querySelector('#mainNav');
-        if (!navbarCollapsible) {
-            return;
-        }
-        if (window.scrollY === 0) {
-            navbarCollapsible.classList.remove('navbar-shrink')
-        } else {
-            navbarCollapsible.classList.add('navbar-shrink')
-        }
+    const navbar = document.querySelector('#mainNav');
+    const navbarShrink = () => {
+        if (!navbar) return;
 
+        if (window.scrollY === 0) {
+            navbar.classList.remove('navbar-shrink');
+        } else {
+            navbar.classList.add('navbar-shrink');
+        }
     };
 
-    // Shrink the navbar 
+    // Shrink immediately
     navbarShrink();
 
-    // Shrink the navbar when page is scrolled
+    // Shrink when scrolling
     document.addEventListener('scroll', navbarShrink);
 
-    // Activate Bootstrap scrollspy on the main nav element
-    const mainNav = document.body.querySelector('#mainNav');
-    if (mainNav) {
+    // ---------------------------------------------
+    // Bootstrap ScrollSpy (Bootstrap 5 version)
+    // ---------------------------------------------
+    if (navbar) {
         new bootstrap.ScrollSpy(document.body, {
             target: '#mainNav',
-            rootMargin: '0px 0px -40%',
+            offset: 74
         });
-    };
+    }
 
-    // Collapse responsive navbar when toggler is visible
-    const navbarToggler = document.body.querySelector('.navbar-toggler');
-    const responsiveNavItems = [].slice.call(
-        document.querySelectorAll('#navbarResponsive .nav-link')
-    );
-    responsiveNavItems.map(function (responsiveNavItem) {
-        responsiveNavItem.addEventListener('click', () => {
-            if (window.getComputedStyle(navbarToggler).display !== 'none') {
+    // ---------------------------------------------
+    // Collapse mobile navbar after clicking a link
+    // ---------------------------------------------
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const navLinks = document.querySelectorAll('#navbarResponsive .nav-link');
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const isTogglerVisible = window.getComputedStyle(navbarToggler).display !== 'none';
+            if (isTogglerVisible) {
                 navbarToggler.click();
             }
         });
