@@ -1,454 +1,94 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A Hopeful Encounter – Venue Reservation</title>
-
-  <!-- FullCalendar (CDN) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-
-  <style>
-    :root { --ink:#111827; --muted:#6b7280; --line:#e5e7eb; --bg:#f9fafb; --card:#ffffff; --brand:#0ea5e9; }
-    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color:var(--ink); background:var(--bg); }
-    header { padding:22px 18px; background:var(--card); border-bottom:1px solid var(--line); }
-    header h1 { margin:0; font-size:20px; }
-    header p { margin:6px 0 0; color:var(--muted); line-height:1.35; }
-    main { max-width:1100px; margin:18px auto; padding:0 18px 26px; display:grid; grid-template-columns: 1.2fr 0.8fr; gap:18px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; box-shadow:0 1px 0 rgba(0,0,0,0.03); }
-    .card h2 { margin:0 0 10px; font-size:16px; }
-    .muted { color:var(--muted); }
-    .pill { display:inline-block; padding:6px 10px; border-radius:999px; background:#eff6ff; border:1px solid #dbeafe; color:#1d4ed8; font-size:12px; }
-    .grid { display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
-    label { display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
-    input, select, textarea { width:100%; border:1px solid var(--line); border-radius:10px; padding:10px 10px; font-size:14px; background:#fff; }
-    textarea { min-height:86px; resize:vertical; }
-    .row { margin-bottom:10px; }
-    .rules { font-size:13px; line-height:1.4; }
-    .rules ul { margin:8px 0 0 18px; }
-    .btnbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:10px; }
-    button { border:0; border-radius:12px; padding:10px 12px; font-weight:600; cursor:pointer; }
-    .primary { background:var(--brand); color:white; }
-    .ghost { background:#fff; border:1px solid var(--line); color:var(--ink); }
-    .danger { background:#fee2e2; color:#991b1b; }
-    .small { font-size:12px; padding:8px 10px; border-radius:10px; }
-    .summary { border-top:1px dashed var(--line); margin-top:12px; padding-top:12px; }
-    .kvs { display:grid; grid-template-columns: 1fr auto; gap:8px 14px; font-size:13px; }
-    .kvs div:nth-child(2n) { text-align:right; font-weight:600; }
-    .note { background:#fffbeb; border:1px solid #fde68a; border-radius:12px; padding:10px; font-size:13px; }
-    .ok { background:#ecfdf5; border:1px solid #a7f3d0; border-radius:12px; padding:10px; font-size:13px; }
-    footer { max-width:1100px; margin:0 auto; padding:0 18px 30px; color:var(--muted); font-size:12px; }
-    @media (max-width: 920px) { main { grid-template-columns:1fr; } }
-  </style>
-</head>
-
-<body>
-<header>
-  <h1>A Hopeful Encounter, Inc. – Expanded Space Reservation</h1>
-  <p>
-    3,200 sq. ft. multipurpose cultural & youth-centered venue (capacity up to 200). No kitchen—food must be catered or brought in.
-    On-site cooking is strictly prohibited. Wireless internet available upon request. :contentReference[oaicite:1]{index=1}
-  </p>
-</header>
-
-<main>
-  <section class="card">
-    <h2>1) Select a date & time <span class="pill" id="busyStatus">Loading availability…</span></h2>
-    <div id="calendar"></div>
-
-    <div class="summary">
-      <div class="kvs">
-        <div>Selected start</div><div id="selStart" class="muted">—</div>
-        <div>Selected end</div><div id="selEnd" class="muted">—</div>
-        <div>Duration</div><div id="selDur" class="muted">—</div>
-      </div>
-      <div style="margin-top:10px" class="note" id="policyHint">
-        Tip: click & drag on the calendar to select a time range. Busy times are blocked.
-      </div>
-    </div>
-  </section>
-
-  <aside class="card">
-    <h2>2) Reservation request</h2>
-
-    <form id="resForm">
-      <div class="row">
-        <label for="eventName">Name of Event</label>
-        <input id="eventName" required placeholder="e.g., Youth Leadership Workshop" />
-      </div>
-
-      <div class="row">
-        <label for="eventDesc">Description of Event (add flyer link if applicable)</label>
-        <textarea id="eventDesc" placeholder="Describe the event…"></textarea>
-      </div>
-
-      <div class="grid">
-        <div class="row">
-          <label for="attendance">Anticipated # of attendees</label>
-          <input id="attendance" type="number" min="1" max="200" placeholder="Up to 200" />
-        </div>
-
-        <div class="row">
-          <label for="privacy">Private or Public</label>
-          <select id="privacy">
-            <option value="private">Private</option>
-            <option value="public">Public</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="row">
-          <label for="hostName">Host / Responsible Individual(s)</label>
-          <input id="hostName" required placeholder="Full name" />
-        </div>
-
-        <div class="row">
-          <label for="orgName">Organization name (if applicable)</label>
-          <input id="orgName" placeholder="Organization" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="row">
-          <label for="phone">Phone</label>
-          <input id="phone" required placeholder="(559) 000-0000" />
-        </div>
-
-        <div class="row">
-          <label for="email">Email</label>
-          <input id="email" type="email" required placeholder="you@example.com" />
-        </div>
-      </div>
-
-      <div class="grid">
-        <div class="row">
-          <label for="orgType">Organization type</label>
-          <select id="orgType">
-            <option value="cbo">CBO</option>
-            <option value="non_affiliated">Non-affiliated</option>
-            <option value="educational_non_student">Educational (non-student)</option>
-            <option value="student_led">Student-led</option>
-            <option value="volunteer_led">Volunteer-led</option>
-          </select>
-        </div>
-
-        <div class="row">
-          <label for="rateType">Rate type</label>
-          <select id="rateType">
-            <option value="standard">Standard Hourly (Mon–Fri) – $80/hr (2-hr min)</option>
-            <option value="mission">Mission / Youth Rate – $60/hr (2-hr min)</option>
-            <option value="bundle">Celebration Bundle – $2,400</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row">
-        <label for="alcohol">Will alcohol be served?</label>
-        <select id="alcohol">
-          <option value="no">No</option>
-          <option value="yes">Yes</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <div class="ok rules">
-          <strong>Key policies (summary)</strong> :contentReference[oaicite:2]{index=2}
-          <ul>
-            <li><strong>No on-site cooking</strong> (no kitchen). Catering or bring-in only.</li>
-            <li><strong>Alcohol prohibited during the workweek</strong>. Saturday events may allow alcohol with required docs; no alcohol if attendees are under 21.</li>
-            <li>Clean-up required; decorations may not be hung on walls/ceiling. Negligent care may result in a <strong>$500 fee</strong> and possible prohibition.</li>
-            <li>Same-day or within 48 hours cancellation: <strong>billed full price; no refund</strong>.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="summary">
-        <div class="kvs">
-          <div>Estimated total</div><div id="estimate">$0.00</div>
-          <div>Notes</div><div id="estimateNotes" class="muted">Select a time range</div>
-        </div>
-      </div>
-
-      <div class="btnbar">
-        <button type="button" class="ghost" id="clearSel">Clear selection</button>
-        <button type="submit" class="primary">Submit reservation request</button>
-        <a class="ghost small" href="https://www.zeffy.com/en-US/ticketing/facility-reservation" target="_blank" rel="noreferrer">Pay online (Zeffy)</a>
-      </div>
-
-      <div id="submitMsg" style="margin-top:10px"></div>
-      <p class="muted" style="margin-top:10px; font-size:12px;">
-        After approval, a written agreement will be established. Submitting at least 4 weeks in advance is recommended. :contentReference[oaicite:3]{index=3}
-      </p>
-    </form>
-  </aside>
-</main>
-
-<footer>
-  A Hopeful Encounter, Inc. • 3253 E. Shields Ave, Fresno, CA 93726 • Availability and rates subject to change. :contentReference[oaicite:4]{index=4}
-</footer>
-
-<script>
-  // -----------------------------
-  // CONFIG (you will set these)
-  // -----------------------------
-
-  // Option A (recommended): Your server exposes /api/busy?timeMin=...&timeMax=...
-  // which returns: { busy: [{ start:"ISO", end:"ISO" }, ...] }
-  const BUSY_API_URL = "/api/busy";
-
-  // Optional: send reservation request to your backend
-  // Expected: POST /api/reservations with JSON payload, returns { ok:true, message:"..." }
-  const RESERVATION_API_URL = "/api/reservations";
-
-  // -----------------------------
-  // State
-  // -----------------------------
-  let selectedStart = null;
-  let selectedEnd = null;
-
-  // -----------------------------
-  // Helpers
-  // -----------------------------
-  function fmt(dt) {
-    if (!dt) return "—";
-    return new Date(dt).toLocaleString([], { weekday:"short", year:"numeric", month:"short", day:"numeric", hour:"numeric", minute:"2-digit" });
-  }
-
-  function hoursBetween(a, b) {
-    const ms = new Date(b) - new Date(a);
-    return Math.max(0, ms / (1000 * 60 * 60));
-  }
-
-  function isSaturday(dt) {
-    return new Date(dt).getDay() === 6;
-  }
-
-  function isWeekday(dt) {
-    const d = new Date(dt).getDay();
-    return d >= 1 && d <= 5;
-  }
-
-  function money(n) {
-    return n.toLocaleString(undefined, { style:"currency", currency:"USD" });
-  }
-
-  function setPolicyHint(text, type="note") {
-    const el = document.getElementById("policyHint");
-    el.className = type === "ok" ? "ok" : "note";
-    el.textContent = text;
-  }
-
-  function updateSelectionUI() {
-    document.getElementById("selStart").textContent = fmt(selectedStart);
-    document.getElementById("selEnd").textContent = fmt(selectedEnd);
-
-    const hrs = selectedStart && selectedEnd ? hoursBetween(selectedStart, selectedEnd) : 0;
-    document.getElementById("selDur").textContent = hrs ? `${hrs.toFixed(2)} hour(s)` : "—";
-
-    // Policy nudges
-    if (selectedStart && selectedEnd) {
-      const sat = isSaturday(selectedStart);
-      const wk = isWeekday(selectedStart);
-      const alcohol = document.getElementById("alcohol").value;
-
-      if (wk && alcohol === "yes") {
-        setPolicyHint("Alcohol is prohibited during the workweek. Please switch alcohol to 'No' or choose a Saturday time.", "note");
-      } else if (sat) {
-        setPolicyHint("Saturday reminder: if alcohol is served, your org must provide insurance, liquor license, and security. Saturday events also require liability insurance certificate and a $500 security deposit.", "note");
-      } else {
-        setPolicyHint("Looks good. Reminder: no on-site cooking; clean-up required.", "ok");
-      }
-    }
-
-    updateEstimate();
-  }
-
-  function updateEstimate() {
-    const rateType = document.getElementById("rateType").value;
-    const alcohol = document.getElementById("alcohol").value;
-
-    let note = "Select a time range";
-    let total = 0;
-
-    if (rateType === "bundle") {
-      total = 2400;
-      note = "Celebration Bundle fixed price.";
-    } else if (selectedStart && selectedEnd) {
-      let hrs = hoursBetween(selectedStart, selectedEnd);
-
-      // 2-hour minimum
-      if (hrs > 0 && hrs < 2) hrs = 2;
-
-      const rate = rateType === "mission" ? 60 : 80;
-      total = hrs * rate;
-      note = `${money(rate)}/hr, billed for ${hrs.toFixed(2)} hour(s) (2-hour minimum).`;
-
-      // Weekday alcohol warning
-      if (isWeekday(selectedStart) && alcohol === "yes") {
-        note += " Alcohol is not allowed on weekdays.";
-      }
-    }
-
-    document.getElementById("estimate").textContent = money(total);
-    document.getElementById("estimateNotes").textContent = note;
-  }
-
-  async function fetchBusy(timeMinISO, timeMaxISO) {
-    const status = document.getElementById("busyStatus");
-    try {
-      status.textContent = "Loading availability…";
-      const url = new URL(BUSY_API_URL, window.location.origin);
-      url.searchParams.set("timeMin", timeMinISO);
-      url.searchParams.set("timeMax", timeMaxISO);
-
-      const res = await fetch(url.toString(), { headers: { "Accept":"application/json" }});
-      if (!res.ok) throw new Error(`Busy API error: ${res.status}`);
-      const data = await res.json();
-
-      status.textContent = "Availability loaded";
-      return (data.busy || []).map(b => ({
-        start: b.start,
-        end: b.end,
-        display: "background",
-        overlap: false,
-        backgroundColor: "#e5e7eb"
-      }));
-    } catch (e) {
-      console.error(e);
-      status.textContent = "Could not load availability";
-      setPolicyHint("Availability could not be loaded. You can still submit a request, but conflicts may occur.", "note");
-      return [];
-    }
-  }
-
-  // -----------------------------
-  // Calendar setup
-  // -----------------------------
-  document.addEventListener("DOMContentLoaded", async () => {
-    const calEl = document.getElementById("calendar");
-
-    const calendar = new FullCalendar.Calendar(calEl, {
-      initialView: "timeGridWeek",
-      height: "auto",
-      nowIndicator: true,
-      selectable: true,
-      selectMirror: true,
-      allDaySlot: false,
-      slotMinTime: "06:00:00",
-      slotMaxTime: "23:00:00",
-      headerToolbar: {
-        left: "prev,next today",
-        center: "title",
-        right: "dayGridMonth,timeGridWeek,timeGridDay"
-      },
-
-      // Called whenever the visible date range changes
-      datesSet: async (info) => {
-        // Remove old background events and load new busy events for this range
-        calendar.getEvents().forEach(e => {
-          if (e.display === "background") e.remove();
-        });
-
-        const busyEvents = await fetchBusy(info.startStr, info.endStr);
-        busyEvents.forEach(ev => calendar.addEvent(ev));
-      },
-
-      select: (selectionInfo) => {
-        selectedStart = selectionInfo.startStr;
-        selectedEnd = selectionInfo.endStr;
-
-        // Prevent selecting a range that overlaps busy background events
-        const overlapsBusy = calendar.getEvents().some(e => {
-          if (e.display !== "background") return false;
-          const s1 = new Date(selectedStart), e1 = new Date(selectedEnd);
-          const s2 = new Date(e.startStr), e2 = new Date(e.endStr);
-          return (s1 < e2 && e1 > s2);
-        });
-
-        if (overlapsBusy) {
-          selectedStart = null; selectedEnd = null;
-          calendar.unselect();
-          alert("That time overlaps an existing reservation. Please choose another time.");
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Careers - A Hopeful Encounter</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', Arial, sans-serif;
+            background: linear-gradient(to bottom, #1c2b2a, #0f1a19);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
-
-        updateSelectionUI();
-      }
-    });
-
-    calendar.render();
-
-    // Form event handlers
-    document.getElementById("rateType").addEventListener("change", updateEstimate);
-    document.getElementById("alcohol").addEventListener("change", updateSelectionUI);
-
-    document.getElementById("clearSel").addEventListener("click", () => {
-      selectedStart = null; selectedEnd = null;
-      calendar.unselect();
-      updateSelectionUI();
-    });
-
-    document.getElementById("resForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const msg = document.getElementById("submitMsg");
-      msg.innerHTML = "";
-
-      if (!selectedStart || !selectedEnd) {
-        msg.innerHTML = `<div class="note">Please select a date/time on the calendar first.</div>`;
-        return;
-      }
-
-      // Weekday alcohol rule enforcement
-      if (isWeekday(selectedStart) && document.getElementById("alcohol").value === "yes") {
-        msg.innerHTML = `<div class="note">Alcohol is prohibited during the workweek. Please set alcohol to "No" or choose a Saturday time.</div>`;
-        return;
-      }
-
-      const payload = {
-        eventName: document.getElementById("eventName").value.trim(),
-        eventDesc: document.getElementById("eventDesc").value.trim(),
-        start: selectedStart,
-        end: selectedEnd,
-        attendance: document.getElementById("attendance").value ? Number(document.getElementById("attendance").value) : null,
-        privacy: document.getElementById("privacy").value,
-        hostName: document.getElementById("hostName").value.trim(),
-        orgName: document.getElementById("orgName").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        orgType: document.getElementById("orgType").value,
-        rateType: document.getElementById("rateType").value,
-        alcohol: document.getElementById("alcohol").value
-      };
-
-      // If you don't have a backend yet, this will "simulate" success
-      try {
-        const res = await fetch(RESERVATION_API_URL, {
-          method: "POST",
-          headers: { "Content-Type":"application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) throw new Error(`Reservation API error: ${res.status}`);
-        const data = await res.json();
-
-        msg.innerHTML = `<div class="ok">${data.message || "Request submitted! We'll email you after review."}</div>`;
-      } catch (err) {
-        console.warn(err);
-        // fallback: show the payload so you can copy/paste if needed
-        msg.innerHTML = `
-          <div class="note">
-            Your site is not connected to a reservation backend yet.
-            Copy this request and email it to the facility coordinator:<br><br>
-            <pre style="white-space:pre-wrap; background:#fff; border:1px solid var(--line); padding:10px; border-radius:10px; margin:0;">${JSON.stringify(payload, null, 2)}</pre>
-          </div>
-        `;
-      }
-    });
-
-    updateSelectionUI();
-  });
-</script>
+        
+        .title {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 200;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+            margin-bottom: 50px;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .btn {
+            background-color: #64a19d;
+            color: white;
+            padding: 18px 45px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+        }
+        
+        .btn:hover {
+            background-color: #4f837f;
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 600px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+                min-width: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">A Hopeful Encounter, Inc.</h1>
+    <div class="subtitle">Facility Reserveration Requests</div>
+    
+    <div class="button-container">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNX7447-9hYY2XACpkT7RQsJvu3-gyKkPv8QYHkTf20hGkJw/viewform" class="btn">AHE Main Hall (Large Venue Hall ~330)</a>
+        <a href="https://forms.gle/a2sJiVCzudqmNrbW6" class="btn">AHE Expansion Space (Medium Venue Hall ~200)</a>
+    </div>
 </body>
 </html>
