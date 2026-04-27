@@ -3,17 +3,16 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Reserveration - A Hopeful Encounter</title>
+    <title>Reservation - A Hopeful Encounter</title>
     <style>
         body {
             margin: 0;
-            padding: 0;
+            padding: 40px 0;
             font-family: 'Nunito', Arial, sans-serif;
             background: linear-gradient(to bottom, #1c2b2a, #0f1a19);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             text-align: center;
         }
@@ -24,31 +23,44 @@
             font-weight: 200;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .subtitle {
             color: rgba(255, 255, 255, 0.7);
             font-size: 1.1rem;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
             max-width: 600px;
             padding: 0 20px;
+        }
+
+        .venue-heading {
+            color: #64a19d;
+            font-size: 1.8rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(100, 161, 157, 0.3);
+            display: inline-block;
+            padding-bottom: 5px;
         }
         
         .button-container {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
             padding: 20px;
+            margin-bottom: 30px;
         }
         
         .btn {
             background-color: #64a19d;
             color: white;
             padding: 18px 45px;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
             border-radius: 50px;
             text-decoration: none;
@@ -60,35 +72,175 @@
         
         .btn:hover {
             background-color: #4f837f;
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
             transform: translateY(-2px);
         }
-        
+
+        /* --- Table Styling --- */
+        .pricing-container {
+            width: 95%;
+            max-width: 900px;
+            margin: 0 auto;
+            color: white;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-table th, .pricing-table td {
+            padding: 15px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .pricing-table thead th {
+            background: rgba(100, 161, 157, 0.3);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .table-header-main {
+            background: rgba(100, 161, 157, 0.5) !important;
+            font-size: 1.1rem !important;
+            text-align: center !important;
+        }
+
+        .rate-cell {
+            font-weight: bold;
+            color: #64a19d;
+            white-space: nowrap;
+            text-align: center !important;
+        }
+
+        .note-text {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+        }
+
+        .center-footer {
+            text-align: center !important;
+            font-style: italic;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
         @media (max-width: 600px) {
-            .title {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .btn {
-                padding: 15px 30px;
-                font-size: 1.1rem;
-                min-width: 160px;
-            }
+            .title { font-size: 1.8rem; }
+            .venue-heading { font-size: 1.4rem; }
+            .pricing-table { font-size: 0.85rem; }
+            .pricing-table th, .pricing-table td { padding: 10px; }
         }
     </style>
 </head>
 <body>
     <h1 class="title">A Hopeful Encounter, Inc.</h1>
-    <div class="subtitle">Facility Reserveration Requests</div>
+    <div class="subtitle"><i>Select a venue to begin your reservation request</i></div>
     
     <div class="button-container">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNX7447-9hYY2XACpkT7RQsJvu3-gyKkPv8QYHkTf20hGkJw/viewform" class="btn">AHE Main Hall (Large Venue Hall ~350)</a>
-        <a href="https://forms.gle/a2sJiVCzudqmNrbW6" class="btn">AHE Expansion Space (Medium Venue Hall ~200)</a>
+        <a href="https://forms.gle/a2sJiVCzudqmNrbW6" target="_blank" class="btn">Request Expansion Space</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNX7447-9hYY2XACpkT7RQsJvu3-gyKkPv8QYHkTf20hGkJw/viewform"  target="_blank" class="btn">Request Main Hall</a>
+    </div>
+
+    <div class="pricing-container">
+        
+        <h2 class="venue-heading">AHE Expansion Space (Small Hall ~200)</h2>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th colspan="3" class="table-header-main">Hourly Venue Rates (Mon-Fri)</th>
+                </tr>
+                <tr>
+                    <th>Rental Type</th>
+                    <th>Rate</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Standard Hourly</td>
+                    <td class="rate-cell">$80 / hr</td>
+                    <td class="note-text">2-hour minimum</td>
+                </tr>
+                <tr>
+                    <td>Mission / Youth Rate</td>
+                    <td class="rate-cell">$60 / hr</td>
+                    <td class="note-text">Nonprofit, youth & school events. 2-hour minimum</td>
+                </tr>
+                <tr>
+                    <th colspan="3" class="table-header-main">Weekend Bundle Package (Sat-Sun)</th>
+                </tr>
+                <tr>
+                    <td>Celebration Bundle</td>
+                    <td class="rate-cell">$2,000</td>
+                    <td class="note-text">150 chairs, 15 tables, small sound system, & cleanup</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 class="venue-heading">AHE Main Hall (Large Hall ~350)</h2>
+        <table class="pricing-table">
+            <thead>
+                <tr>
+                    <th colspan="2" class="table-header-main">Reservation Packages & Rates</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <strong>Weekday Half-day</strong><br>
+                        <span class="note-text">M-F business hours (8-12 p.m. or 1-5 p.m.)</span>
+                    </td>
+                    <td class="rate-cell">$500</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Weekday All Day</strong><br>
+                        <span class="note-text">M-F business hours (8 a.m.-5 p.m.)</span>
+                    </td>
+                    <td class="rate-cell">$1,000</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center-footer">
+                        Community meetings are exempt from costs upon approval. Weekday rentals strictly for meetings/workshops. <strong>Celebrations prohibited.</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Saturday Deluxe + Sound + Live Band</strong><br>
+                        <span class="note-text">Includes Piano, Singer, Guitar; musical instruments</span>
+                    </td>
+                    <td class="rate-cell">$3,800</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Saturday Deluxe + Sound System</strong><br>
+                        <span class="note-text">35 round tables/cloths, 300 chairs, sound engineer, & cleanup</span>
+                    </td>
+                    <td class="rate-cell">$3,500</td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>Saturday Deluxe Package</strong><br>
+                        <span class="note-text">35 round tables/cloths, 300 chairs, & cleanup</span>
+                    </td>
+                    <td class="rate-cell">$2,500</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="center-footer">
+                        Sundays unavailable for facility rental. All sound needs must be arranged through A Hopeful Encounter.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 </html>
