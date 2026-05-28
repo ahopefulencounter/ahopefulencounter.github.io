@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sib Paub Zog - #GiveInMay</title>
     
-    <!-- Load D3.js and TopoJSON -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/topojson-client@3"></script>
     
@@ -26,6 +25,11 @@
             width: 100%;
             pointer-events: none; 
             z-index: 10;
+        }
+
+        #id_giveinmay {
+            pointer-events: auto; /* Re-enables clicking just for this link */
+            cursor: pointer;      /* Ensures the mouse turns into a little hand */
         }
 
         #map-container {
@@ -81,6 +85,18 @@
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            /* Mobile responsiveness for video modal */
+            width: 90%; 
+            max-width: 560px; 
+            box-sizing: border-box; 
+        }
+
+        /* Force Facebook iframes to shrink to fit the modal */
+        #video-container iframe {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: 560 / 429; /* Maintains your original video proportions */
+            max-height: 80vh; 
         }
 
         /* Style for the Welcome/Instructions Box */
@@ -94,7 +110,10 @@
             border-radius: 8px;
             box-shadow: 0 4px 30px rgba(0,0,0,0.8);
             border: 2px solid #00aeff; /* Orange border to match theme */
+            /* Mobile responsiveness for instructions */
+            width: 90%;
             max-width: 450px;
+            box-sizing: border-box;
         }
 
         .instructions-content h2 {
@@ -155,10 +174,19 @@
             opacity: 0.03; /* Low opacity creates a subtle watermark effect */
             z-index: -1;
         }
-        #id_giveinmay {
-    pointer-events: auto; /* Re-enables clicking just for this link */
-    cursor: pointer;      /* Ensures the mouse turns into a little hand */
-}
+
+        /* Make instructions text slightly smaller on mobile */
+        @media (max-width: 600px) {
+            .instructions-content {
+                padding: 20px;
+            }
+            .instructions-content h2 {
+                font-size: 24px;
+            }
+            .instructions-content p {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -166,7 +194,6 @@
     <h1>Sib Paub Zog | <a id="id_giveinmay" href="https://www.giveinmay.org/organization/A-Hopeful-Encounter" target="_blank" >#GiveInMay</a></h1>
     <div id="map-container"></div>
     
-    <!-- INSTRUCTIONS MODAL (New) -->
     <div id="instructions-modal" class="modal">
         <div class="instructions-content">
             <h2>Welcome!</h2>
@@ -175,7 +202,6 @@
         </div>
     </div>
 
-    <!-- VIDEO MODAL -->
     <div id="video-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
@@ -185,7 +211,7 @@
 
     <script>
 
-        // --- INSTRUCTIONS MODAL LOGIC (New) ---
+        // --- INSTRUCTIONS MODAL LOGIC ---
         const instructionsModal = document.getElementById("instructions-modal");
         const startBtn = document.getElementById("start-btn");
 
@@ -253,9 +279,13 @@
             });
         svg.call(zoom);
 
+        // Check if the screen is mobile-sized (less than 768px wide)
+        const isMobile = window.innerWidth < 768;
+
         const projection = d3.geoMercator()
-            .scale(150)
-            .translate([width / 2, height / 1.5]);
+            .scale(isMobile ? 80 : 150) // Zoom out (80) on phones, use 150 on desktop
+            .translate([width / 2, height / (isMobile ? 2 : 1.5)]); // Center it better on tall screens
+
         const path = d3.geoPath().projection(projection);
 
         // --- GIF PATTERNS SETUP ---
