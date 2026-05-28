@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>Sib Paub Zog - #GiveInMay</title>
+    
+    <!-- Load D3.js and TopoJSON -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; 
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden; 
+        }
+        
+        h1 {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            pointer-events: none; 
+            z-index: 10;
+        }
+
+        #map-container {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Default styling for the rest of the world */
+        .country, .state {
+            fill: #333333;
+            stroke: #555555;
+            stroke-width: 0.5px;
+            transition: opacity 0.3s;
+        }
+
+        /* Highlight styling for CA, WI, and Laos */
+        .highlight {
+            fill: #ff9800; /* Campaign orange */
+            cursor: pointer;
+            stroke: #ffffff;
+            stroke-width: 1px;
+        }
+
+        .highlight:hover {
+            opacity: 0.8;
+        }
+
+        /* CSS classes to apply your GIFs */
+        .target-laos { fill: url(#bg-laos); }
+        .target-ca { fill: url(#bg-ca); }
+        .target-wi { fill: url(#bg-wi); }
+
+        /* --- MODAL CSS --- */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85); 
+            backdrop-filter: blur(4px); 
+        }
+
+        /* Style for the Video Box */
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #000;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        /* Style for the Welcome/Instructions Box */
+        .instructions-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #222;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.8);
+            border: 2px solid #00aeff; /* Orange border to match theme */
+            max-width: 450px;
+        }
+
+        .instructions-content h2 {
+            margin-top: 0;
+            color: #00aeff;
+            font-size: 28px;
+        }
+
+        .instructions-content p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        #start-btn {
+            background-color: #00aeff;
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        #start-btn:hover {
+            background-color: #00b8e68a;
+        }
+
+        .close-btn {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .close-btn:hover, .close-btn:focus {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        
+        body::before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50vw; /* Adjust the size based on preference */
+            height: 50vw;
+            background-image: url('ahe_logo (1).png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: contain;
+            opacity: 0.03; /* Low opacity creates a subtle watermark effect */
+            z-index: -1;
+        }
+        #id_giveinmay {
+    pointer-events: auto; /* Re-enables clicking just for this link */
+    cursor: pointer;      /* Ensures the mouse turns into a little hand */
+}
+    </style>
+</head>
+<body>
+
+    <h1>Sib Paub Zog | <a id="id_giveinmay" href="https://www.giveinmay.org/organization/A-Hopeful-Encounter" target="_blank" >#GiveInMay</a></h1>
+    <div id="map-container"></div>
+    
+    <!-- INSTRUCTIONS MODAL (New) -->
+    <div id="instructions-modal" class="modal">
+        <div class="instructions-content">
+            <h2>Welcome!</h2>
+            <p>Click on the active map contents (California (<i>Allen</i>), Wisconsin (<i>Kalue</i>), and Laos (<i>Thongsy</i>)) to see each <i><b>'Sib Paub Zog'</b></i> story.</p>
+            <button id="start-btn">Start Exploring</button>
+        </div>
+    </div>
+
+    <!-- VIDEO MODAL -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="video-container"></div>
+        </div>
+    </div>
+
+    <script>
+
+        // --- INSTRUCTIONS MODAL LOGIC (New) ---
+        const instructionsModal = document.getElementById("instructions-modal");
+        const startBtn = document.getElementById("start-btn");
+
+        // Show the instructions automatically when the window finishes loading
+        window.addEventListener("load", () => {
+            instructionsModal.style.display = "block";
+        });
+
+        // Hide the instructions when the user clicks the start button
+        startBtn.onclick = function() {
+            instructionsModal.style.display = "none";
+        };
+
+
+        // --- MODAL & FACEBOOK VIDEO SETUP ---
+        const videoData = {
+            laos: '<iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F949932204712733%2F&show_text=true&width=560&t=0" width="560" height="429" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>',
+            ca: '<iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F2404733079999157%2F&show_text=true&width=560&t=0" width="560" height="429" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>',
+            wi: '<iframe src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F4509641082588076%2F&show_text=true&width=560&t=0" width="560" height="429" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>'
+        };
+
+        const videoModal = document.getElementById("video-modal");
+        const videoContainer = document.getElementById("video-container");
+        const closeBtn = document.querySelector(".close-btn");
+
+        function openModal(regionCode) {
+            videoContainer.innerHTML = videoData[regionCode]; 
+            videoModal.style.display = "block"; 
+        }
+
+        function closeModal() {
+            videoModal.style.display = "none"; 
+            videoContainer.innerHTML = ""; 
+        }
+
+        closeBtn.onclick = closeModal;
+
+        // Close the correct modal when clicking the dark background
+        window.onclick = function(event) {
+            if (event.target == videoModal) {
+                closeModal();
+            }
+            // Optional: Close instructions if they click off the box, too
+            if (event.target == instructionsModal) {
+                instructionsModal.style.display = "none";
+            }
+        }
+
+
+        // --- MAP SETUP ---
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        const svg = d3.select("#map-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const g = svg.append("g");
+
+        const zoom = d3.zoom()
+            .scaleExtent([1, 8])
+            .on("zoom", (event) => {
+                g.attr("transform", event.transform);
+            });
+        svg.call(zoom);
+
+        const projection = d3.geoMercator()
+            .scale(150)
+            .translate([width / 2, height / 1.5]);
+        const path = d3.geoPath().projection(projection);
+
+        // --- GIF PATTERNS SETUP ---
+        const defs = svg.append("defs");
+
+        function createPattern(id, imageHref) {
+            defs.append("pattern")
+                .attr("id", id)
+                .attr("patternUnits", "userSpaceOnUse")
+                .attr("width", 600)  
+                .attr("height", 600) 
+                .append("image")
+                .attr("href", imageHref)
+                .attr("width", 600)
+                .attr("height", 600)
+                .attr("preserveAspectRatio", "xMidYMid slice"); 
+        }
+
+        // REPLACE these URLs with the actual paths to your .gif files!
+        createPattern("bg-laos", "https://via.placeholder.com/600/ff9800/ffffff?text=Laos+GIF+Here");
+        createPattern("bg-ca", "https://via.placeholder.com/600/ff9800/ffffff?text=CA+GIF+Here");
+        createPattern("bg-wi", "https://via.placeholder.com/600/ff9800/ffffff?text=WI+GIF+Here");
+
+        // --- LOAD DATA & DRAW MAP ---
+        Promise.all([
+            d3.json("https://unpkg.com/world-atlas@2/countries-110m.json"),
+            d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json")
+        ]).then(([world, us]) => {
+            
+            const countries = topojson.feature(world, world.objects.countries).features;
+            const states = topojson.feature(us, us.objects.states).features;
+
+            g.selectAll(".country")
+                .data(countries)
+                .enter().append("path")
+                .attr("class", d => {
+                    if (d.id === "418") return "country highlight target-laos";
+                    if (d.id === "840") return "hide-usa"; 
+                    return "country";
+                })
+                .attr("d", path)
+                .on("click", function(event, d) {
+                    if (d.id === "418") openModal("laos");
+                });
+
+            g.selectAll(".hide-usa").remove();
+
+            g.selectAll(".state")
+                .data(states)
+                .enter().append("path")
+                .attr("class", d => {
+                    if (d.id === "06") return "state highlight target-ca";
+                    if (d.id === "55") return "state highlight target-wi";
+                    return "state";
+                })
+                .attr("d", path)
+                .on("click", function(event, d) {
+                    if (d.id === "06") openModal("ca");
+                    if (d.id === "55") openModal("wi");
+                });
+        });
+
+        window.addEventListener("resize", () => {
+            svg.attr("width", window.innerWidth).attr("height", window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
