@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaoke Night | A Hopeful Encounter</title>
+    <style>
+        :root {
+            --neon-purple: #d100ff;
+            --neon-pink: #ff007f;
+            --gold: #f4d03f;
+            --bg-color: #0d0514;
+            --text-light: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            background-image: radial-gradient(circle at center, #2a0845 0%, #0d0514 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .presents {
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        h1 {
+            font-size: 5rem;
+            margin: 0;
+            text-transform: uppercase;
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple), 0 0 40px var(--neon-purple);
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            font-weight: 300;
+        }
+
+        .artist-name {
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-size: 4rem;
+            color: var(--neon-pink);
+            text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-pink);
+            display: block;
+            margin-top: -10px;
+        }
+
+        .event-details {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+        }
+
+        .event-details p {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin: 15px 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .event-details .label {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            font-weight: normal;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .flyers-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .flyers-gallery img {
+            max-width: 100%;
+            width: 450px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(209, 0, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flyers-gallery img:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(255, 0, 127, 0.5);
+        }
+
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 { font-size: 3.5rem; }
+            .artist-name { font-size: 3rem; }
+            .event-details p { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div class="presents">A Hopeful Encounter Presents</div>
+            <h1>Karaoke<br>Night</h1>
+            <h2>Special Artist Appearance<span class="artist-name">Tata</span></h2>
+        </header>
+
+        <section class="event-details">
+            <p><span class="label">When</span>FRIDAY, AUG 29, 2025 <br> 7:00 PM - 11:00 PM</p>
+            <p><span class="label">Where</span>A HOPEFUL ENCOUNTER <br> 3253 E Shields Ave <br> Fresno, CA 93726</p>
+            <p><span class="label">Admission</span>ALL AGES</p>
+        </section>
+
+        <section class="flyers-gallery">
+            <!-- Referencing the provided flyer images -->
+            <img src="1.png" alt="Karaoke Night Official Flyer">
+            <img src="2.png" alt="Special Artist Appearance Tata Flyer">
+        </section>
+
+        <footer class="footer">
+            <p>&copy; 2025 A Hopeful Encounter, Inc. - Unity for a Better Tomorrow.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
