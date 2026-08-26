@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ntxhais Txuj Ci — Yearbook</title>
+    <!-- Import the PageFlip library -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f9f8f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-title {
+            color: #6b2633;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 10px 0;
+            color: #1a2c3f;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* The Book Container */
+        .flipbook-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 50px;
+        }
+
+        /* Individual Page Styling */
+        .my-page {
+            background-color: #fff;
+            border: 1px solid #e0ddd7;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Hardcover Styling */
+        .my-page.--cover {
+            background-color: #1a2c3f;
+            color: #f9f8f6;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #0d1620;
+            box-shadow: inset 4px 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .my-page.--cover h2 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .my-page.--cover .cover-accent {
+            color: #6b2633;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Grid for the 12 photos per page */
+        .page-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #6b2633;
+            border-bottom: 1px solid #e0ddd7;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            /* Changed to 2 rows so the 6 items per page stretch to fill the page height */
+            grid-template-rows: repeat(2, 1fr);
+            gap: 10px;
+            height: 100%;
+        }
+
+        .gallery-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            object-fit: cover;
+            object-position: 50% 15%;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Hover effect to indicate clickability */
+        .gallery-item img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 2;
+            position: relative;
+        }
+
+        .caption {
+            margin-top: 5px;
+            font-size: 0.65em;
+            color: #555;
+            text-align: center;
+        }
+        
+        .caption strong {
+            color: #1a2c3f;
+        }
+
+        /* Instructions */
+        .drag-instruction {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #6b2633;
+            font-weight: bold;
+        }
+
+        /* Fullscreen Lightbox Modal */
+        #lightbox-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        #lightbox-img {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        #lightbox-caption {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+            text-align: center;
+            color: #ccc;
+            padding: 15px 0;
+            font-size: 1.2em;
+        }
+
+        /* Apply this to the container holding the photos for Page 05 and Page 06 */
+        .photo-gallery {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr); /* Creates a 4-column base */
+          grid-template-rows: unset; /* Allows natural row height wrapping, overriding the 2-row layout from gallery-grid */
+          grid-auto-rows: 150px; /* Sets a standard row height */
+          gap: 10px; /* Space between photos */
+          grid-auto-flow: dense; /* Fills in the gaps automatically */
+        }
+
+        .photo-gallery img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover; /* Keeps the image proportioned while filling the box */
+          border-radius: 4px; /* Optional: adds a nice subtle curve to the photos */
+        }
+
+        /* Reset default figure margins */
+        .gallery-item {
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+        }
+
+        /* Ensure the image stretches to fill its new varied container size */
+        .gallery-item img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 4px;
+          flex-grow: 1; /* Pushes the caption to the bottom consistently */
+        }
+
+        .gallery-item figcaption {
+          text-align: center;
+          font-weight: bold;
+          padding-top: 5px;
+          font-size: 0.9em;
+        }
+
+        /* Collage Grid Spans */
+        .span-large {
+          grid-column: span 2;
+          grid-row: span 2;
+        }
+
+        .span-wide {
+          grid-column: span 2;
+        }
+
+        .span-tall {
+          grid-row: span 2;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">A Hopeful Encounter, Inc.</div>
+        <h1>Ntxhais Txuj Ci — 2026</h1>
+        <p class="subtitle">Capturing a season of growth and celebrating the leaders we are becoming, rooted in the style, grace, and confidence of Hmong Dance!</p>
+    </header>
+
+    <div class="flipbook-container">
+        <div id="flipbook">
+            
+            <!-- Front Cover -->
+            <div class="my-page --cover">
+                <div class="cover-accent">2026 Yearbook</div>
+                <h2>Ntxhais Txuj Ci</h2>
+                <p style="text-align: center;"><i>Girls' Skills and Leadership</i></p>
+                <img style="width: 100%;" src="optimize_img/DSC05053.webp" alt="NTC" onclick="openLightbox('optimize_img/DSC05053.webp', 'NTC', event)" title="Click to zoom">
+                <img style="width: 60%; display: block; margin: 0 auto;" src="https://hopefulencounter.org/assets/ahe_logo.png" />
+            </div>
+
+            <!-- Page 1 -->
+            <div class="my-page">
+                <div class="page-content">
+                    <div class="page-header">PAGE 01</div>
+                    <div class="gallery-grid">
+                        
+                        <!-- Item Example 1 -->
+                        <div class="gallery-item">
+                            <!-- onclick moved to the image -->
+                            <img src="optimize_img/DSC05033.webp" alt="Abby Xiong" onclick="openLightbox('optimize_img/DSC05033.webp', 'Abby Xiong', event)" title="Click to zoom">
+                            <div class="caption">
+                                Abby Xiong
+                            </div>
+                        </div>
+
+                        <!-- Item Example 2 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05043.webp" alt="Eleanor Xiong" onclick="openLightbox('optimize_img/DSC05043.webp', 'Eleanor Xiong', event)" title="Click to zoom">
+                            <div class="caption">
+                                Eleanor Xiong
+                            </div>
+                        </div>
+
+                        <!-- Item Example 3 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05038.webp" alt="Pearl Xiong" onclick="openLightbox('optimize_img/DSC05038.webp', 'Pearl Xiong', event)" title="Click to zoom">
+                            <div class="caption">
+                                Pearl Xiong
+                            </div>
+                        </div>
+
+                        <!-- Item Example 4 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04948.webp" alt="Alyssa Her" onclick="openLightbox('optimize_img/DSC04948.webp', 'Alyssa Her', event)" title="Click to zoom">
+                            <div class="caption">
+                                Alyssa Her
+                            </div>
+                        </div>
+
+                        <!-- Item Example 5 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04954.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC04954.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ntxhais Txuj Ci
+                            </div>
+                        </div>
+
+                        <!-- Item Example 6 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04962.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC04962.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ntxhais Txuj Ci
+                            </div>
+                        </div>
+
+                    
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="my-page">
+                <div class="page-content">
+                    <div class="page-header">PAGE 02</div>
+                    <div class="gallery-grid">
+
+                        <!-- Item Example 7 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04974.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC04974.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                Allerina Xiong
+                            </div>
+                        </div>
+
+                        <!-- Item Example 8 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04977.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC04977.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ntxhais Txuj Ci
+                            </div>
+                        </div>
+
+                        <!-- Item Example 9 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04981.webp" alt="Ivory Xiong" onclick="openLightbox('optimize_img/DSC04981.webp', 'Ivory Xiong', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ivory Xiong
+                            </div>
+                        </div>
+                    
+                        <!-- Item Example 10 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04983.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC04983.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ntxhais Txuj Ci
+                            </div>
+                        </div>
+
+                        <!-- Item Example 11 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04990.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC04990.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ntxhais Txuj Ci
+                            </div>
+                        </div>
+
+                        <!-- Item Example 12 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04995.webp" alt="Keira Xiong" onclick="openLightbox('optimize_img/DSC04995.webp', 'Keira Xiong', event)" title="Click to zoom">
+                            <div class="caption">
+                                Keira Xiong
+                            </div>
+                        </div>
+                        
+                       
+                    </div>
+                </div>
+            </div>
+            <!-- Page 3 -->
+            <div class="my-page">
+                <div class="page-content">
+                    <div class="page-header">PAGE 03</div>
+                    <div class="gallery-grid">
+                        <!-- Item Example 13 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC04996.webp" alt="Ondine Xiong" onclick="openLightbox('optimize_img/DSC04996.webp', 'Ondine Xiong', event)" title="Click to zoom">
+                            <div class="caption">
+                                Ondine Xiong
+                            </div>
+                        </div>
+
+                        <!-- Item Example 14 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05000.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05000.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 15 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05003.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05003.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 16 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05007.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05007.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 17 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05011.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05011.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 18 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05014.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05014.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                       
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Page 4 -->
+            <div class="my-page">
+                <div class="page-content">
+                    <div class="page-header">PAGE 04</div>
+                    <div class="gallery-grid">
+
+                        <!-- Item Example 19 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05017.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05017.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 20 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05019.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05019.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 21 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05020.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05020.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 22 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05022.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05022.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 23 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05027.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05027.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+
+                        <!-- Item Example 24 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05029.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05029.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+                            <div class="caption">
+                                <strong>Ntxhais Txuj Ci</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                       
+            <!-- Page 5 -->
+            <div class="my-page">
+                <div class="page-content">
+                    <div class="page-header">PAGE 05</div>
+                    <div class="gallery-grid photo-gallery">
+
+                        <!-- Item Example 26 (Large Feature) -->
+                        <div class="gallery-item span-large">
+                            <img src="optimize_img/DSC05114.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05114.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                        <!-- Item Example 27 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05125.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05125.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                        <!-- Item Example 28 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05131.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05131.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+  
+                        </div>
+
+                        <!-- Item Example 29 (Wide) -->
+                        <div class="gallery-item span-wide">
+                            <img src="optimize_img/DSC05141.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05141.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                        <!-- Item Example 30 (Tall) -->
+                        <div class="gallery-item span-tall">
+                            <img src="optimize_img/DSC05146.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05146.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                        <!-- Item Example 31 -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05157.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05157.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+                        
+            <!-- Page 6 -->
+            <div class="my-page">
+                <div class="page-content">
+                    <div class="page-header">PAGE 06</div>
+                    <div class="gallery-grid photo-gallery">
+
+                        <!-- Item Example 33 (Moved from Page 5) -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05167.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05167.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+ 
+                        </div>
+
+                        <!-- Item Example 35 (Wide - Moved from Page 5) -->
+                        <div class="gallery-item span-wide">
+                            <img src="optimize_img/DSC05174.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05174.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                        <!-- Item Example 36 (Moved from Page 5) -->
+                        <div class="gallery-item">
+                            <img src="optimize_img/DSC05179.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05179.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+  
+                        </div>
+                        
+                        <!-- Item Example 37 -->
+                        <div class="gallery-item span-large">
+                            <img src="optimize_img/DSC05197.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05197.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                        <!-- Item Example 38 -->
+                        <div class="gallery-item span-large">
+                            <img src="optimize_img/DSC05204.webp" alt="Ntxhais Txuj Ci" onclick="openLightbox('optimize_img/DSC05204.webp', 'Ntxhais Txuj Ci', event)" title="Click to zoom">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Cover -->
+            <div class="my-page --cover">
+                <h2>A Hopeful Encounter, Inc.</h2>
+                <img style="width: 75%; display: block; margin: 0 auto; padding-top: 120px;" src="https://hopefulencounter.org/assets/ahe_logo.png" />
+            </div>
+
+        </div>
+    </div>
+
+    <div class="drag-instruction">
+        ← Click and drag the corners of the pages to flip through the yearbook →
+    </div>
+
+    <!-- The Lightbox Modal -->
+    <div id="lightbox-modal">
+        <span class="close-modal" onclick="closeLightbox()">&times;</span>
+        <img class="modal-content" id="lightbox-img">
+        <div id="lightbox-caption"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Flipbook Initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
+                width: 500,
+                height: 700,
+                size: "stretch",
+                minWidth: 315,
+                maxWidth: 600,
+                minHeight: 420,
+                maxHeight: 800,
+                maxShadowOpacity: 0.5,
+                showCover: true,
+                mobileScrollSupport: false 
+            });
+            pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+        });
+
+        // Lightbox Functions
+        function openLightbox(imageSrc, captionText, event) {
+            // Stop the click from registering on the book page (prevents accidental page turns)
+            event.stopPropagation(); 
+            
+            const modal = document.getElementById("lightbox-modal");
+            const modalImg = document.getElementById("lightbox-img");
+            const captionContent = document.getElementById("lightbox-caption");
+
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+            captionContent.innerHTML = captionText;
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightbox-modal").style.display = "none";
+        }
+
+        // Close modal when clicking anywhere outside the image
+        document.getElementById("lightbox-modal").addEventListener("click", function(event) {
+            if (event.target === this) {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+</html>
