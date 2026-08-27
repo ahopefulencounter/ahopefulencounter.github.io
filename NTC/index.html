@@ -501,40 +501,53 @@
             color: #fff;
         }
 
-        /* Desktop corner hints: only these regions trigger click navigation. */
-        .corner-nav-hint {
+        /* Side Arrow Navigation */
+        .flipbook-container {
+            position: relative;
+        }
+
+        .page-nav-arrow {
             position: absolute;
-            width: 72px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5000;
+            width: 52px;
             height: 72px;
-            z-index: 20;
-            display: none;
+            border: 1px solid rgba(26,44,63,.28);
+            border-radius: 14px;
+            background: rgba(255,255,255,.94);
+            color: #1a2c3f;
+            box-shadow: 0 5px 18px rgba(0,0,0,.16);
+            font-family: Arial, sans-serif;
+            font-size: 2.4rem;
+            line-height: 1;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            pointer-events: auto;
+            backdrop-filter: blur(8px);
+            transition: transform .15s ease, background-color .15s ease, color .15s ease, opacity .15s ease;
+        }
+
+        .page-nav-arrow:hover,
+        .page-nav-arrow:focus-visible {
+            background: #1a2c3f;
+            color: #fff;
+            outline: none;
+            transform: translateY(-50%) scale(1.04);
+        }
+
+        .page-nav-arrow:disabled {
+            opacity: .28;
+            cursor: default;
             pointer-events: none;
-            opacity: 0;
-            transition: opacity .2s ease;
         }
 
-        .flipbook-container:hover .corner-nav-hint { opacity: .9; }
-        .corner-nav-hint::after {
-            content: '';
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            border-style: solid;
-            border-color: rgba(107,38,51,.7);
-        }
-        .corner-nav-hint.left-top { left: 0; top: 0; }
-        .corner-nav-hint.left-bottom { left: 0; bottom: 0; }
-        .corner-nav-hint.right-top { right: 0; top: 0; }
-        .corner-nav-hint.right-bottom { right: 0; bottom: 0; }
-        .corner-nav-hint.left-top::after { left: 10px; top: 10px; border-width: 2px 0 0 2px; }
-        .corner-nav-hint.left-bottom::after { left: 10px; bottom: 10px; border-width: 0 0 2px 2px; }
-        .corner-nav-hint.right-top::after { right: 10px; top: 10px; border-width: 2px 2px 0 0; }
-        .corner-nav-hint.right-bottom::after { right: 10px; bottom: 10px; border-width: 0 2px 2px 0; }
-
-        @media (min-width: 769px) {
-            .flipbook-container { position: relative; }
-            .corner-nav-hint { display: block; }
-        }
+        .page-nav-prev { left: 10px; }
+        .page-nav-next { right: 10px; }
 
         @media (max-width: 768px) {
             .quick-jump {
@@ -555,6 +568,18 @@
                 font-size: .75em;
             }
 
+            .page-nav-arrow {
+                z-index: 10000;
+                width: 42px;
+                height: 58px;
+                border-radius: 12px;
+                font-size: 2rem;
+                background: rgba(255,255,255,.9);
+            }
+
+            .page-nav-prev { left: 4px; }
+            .page-nav-next { right: 4px; }
+
         }
 
     </style>
@@ -573,10 +598,7 @@
     </header>
 
     <div class="flipbook-container" id="flipbook-container">
-        <span class="corner-nav-hint left-top" aria-hidden="true"></span>
-        <span class="corner-nav-hint left-bottom" aria-hidden="true"></span>
-        <span class="corner-nav-hint right-top" aria-hidden="true"></span>
-        <span class="corner-nav-hint right-bottom" aria-hidden="true"></span>
+        <button id="prev-page" class="page-nav-arrow page-nav-prev" type="button" aria-label="Previous page" title="Previous page">&#8249;</button>
         <div id="flipbook">
             
             <!-- Front Cover -->
@@ -802,10 +824,11 @@
             </div>
 
         </div>
+        <button id="next-page" class="page-nav-arrow page-nav-next" type="button" aria-label="Next page" title="Next page">&#8250;</button>
     </div>
 
     <div class="drag-instruction">
-        ← Desktop: double-click a page corner to turn pages • Mobile: double-tap the left or right side →
+        Use the left and right arrow buttons on the sides of the book to turn pages. Use Quick Jump below to skip directly to a page.
     </div>
 
     <nav class="quick-jump" aria-label="Quick jump navigation">
@@ -863,12 +886,8 @@
             updateLightboxToggleUI();
 
             const flipbookEl = document.getElementById('flipbook');
-            const containerEl = document.getElementById('flipbook-container');
-            const mobileQuery = window.matchMedia('(max-width: 768px)');
-            const CORNER_SIZE = 90;
-            const MOBILE_SIDE_RATIO = 0.28;
-            const DOUBLE_TAP_MS = 350;
-            let lastSideTap = { side: null, time: 0 };
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
 
             pageFlip = new St.PageFlip(flipbookEl, {
                 width: 500,
@@ -883,16 +902,25 @@
                 mobileScrollSupport: false,
                 usePortrait: true,
                 clickEventForward: false,
-                disableFlipByClick: true,
+                // User mouse/touch page turning is disabled below, so this can stay false.
+                // Keeping it false allows PageFlip's programmatic animated flipNext/flipPrev methods to work reliably.
+                disableFlipByClick: false,
                 useMouseEvents: false
             });
             pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
 
             const quickButtons = document.querySelectorAll('.quick-jump button[data-page]');
-            function updateQuickJump(pageIndex) {
+
+            function updateNavigation(pageIndex) {
+                const currentPage = Number(pageIndex);
+                const lastPage = pageFlip.getPageCount() - 1;
+
                 quickButtons.forEach(btn => {
-                    btn.classList.toggle('active', Number(btn.dataset.page) === pageIndex);
+                    btn.classList.toggle('active', Number(btn.dataset.page) === currentPage);
                 });
+
+                prevButton.disabled = currentPage <= 0;
+                nextButton.disabled = currentPage >= lastPage;
             }
 
             function jumpToPage(pageIndex) {
@@ -900,9 +928,8 @@
                 const targetPage = Math.max(0, Math.min(Number(pageIndex), lastPage));
 
                 // Direct page turns are reliable from both hard covers, including the back cover.
-                // They also avoid leaving the book in a partially-flipped animation state.
                 pageFlip.turnToPage(targetPage);
-                updateQuickJump(targetPage);
+                updateNavigation(targetPage);
             }
 
             quickButtons.forEach(btn => {
@@ -913,89 +940,44 @@
                 });
             });
 
-            pageFlip.on('flip', e => updateQuickJump(Number(e.data)));
-            updateQuickJump(pageFlip.getCurrentPageIndex());
+            let lastTouchArrowTime = 0;
 
-            // Desktop: page turns are intentionally double-click only.
-            // The double-click must happen in one of the four page-corner zones.
-            function getCornerSide(clientX, clientY) {
-                const rect = flipbookEl.getBoundingClientRect();
-                const x = clientX - rect.left;
-                const y = clientY - rect.top;
-                const nearLeft = x >= 0 && x <= CORNER_SIZE;
-                const nearRight = x <= rect.width && x >= rect.width - CORNER_SIZE;
-                const nearTop = y >= 0 && y <= CORNER_SIZE;
-                const nearBottom = y <= rect.height && y >= rect.height - CORNER_SIZE;
+            function turnAnimated(direction) {
+                const currentPage = pageFlip.getCurrentPageIndex();
+                const lastPage = pageFlip.getPageCount() - 1;
 
-                if (!(nearTop || nearBottom)) return null;
-                if (nearLeft) return 'left';
-                if (nearRight) return 'right';
-                return null;
+                if (direction < 0 && currentPage <= 0) return;
+                if (direction > 0 && currentPage >= lastPage) return;
+
+                // Use PageFlip's built-in animated page turns.
+                if (direction < 0) pageFlip.flipPrev('top');
+                else pageFlip.flipNext('top');
             }
 
-            // Consume ordinary clicks on the book so they can never turn a page.
-            // Image clicks are allowed through for the optional photo lightbox.
-            flipbookEl.addEventListener('click', function(event) {
-                if (mobileQuery.matches) return;
-                if (event.target.closest('img')) return;
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            }, true);
-
-            flipbookEl.addEventListener('dblclick', function(event) {
-                if (mobileQuery.matches) return;
-                if (event.target.closest('img')) return;
-
-                const side = getCornerSide(event.clientX, event.clientY);
-                if (!side) {
-                    event.stopImmediatePropagation();
+            function bindArrow(button, direction) {
+                // Mobile/pen: respond on pointer-up so the PageFlip layer cannot swallow the tap.
+                button.addEventListener('pointerup', function(event) {
+                    if (event.pointerType !== 'touch' && event.pointerType !== 'pen') return;
                     event.preventDefault();
-                    return;
-                }
+                    event.stopPropagation();
+                    lastTouchArrowTime = Date.now();
+                    turnAnimated(direction);
+                });
 
-                event.stopImmediatePropagation();
-                event.preventDefault();
-                if (side === 'left') pageFlip.flipPrev('top');
-                else pageFlip.flipNext('top');
-            }, true);
+                // Desktop mouse + keyboard accessibility. Ignore the synthetic click that follows a touch.
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if (Date.now() - lastTouchArrowTime < 600) return;
+                    turnAnimated(direction);
+                });
+            }
 
-            // Mobile: navigation happens only after a double tap in a side zone.
-            // Single taps in those zones are consumed so PageFlip does not turn accidentally.
-            flipbookEl.addEventListener('touchend', function(event) {
-                if (!mobileQuery.matches || !event.changedTouches.length) return;
-                if (document.getElementById('lightbox-modal').style.display === 'block') return;
+            bindArrow(prevButton, -1);
+            bindArrow(nextButton, 1);
 
-                const touch = event.changedTouches[0];
-                const rect = flipbookEl.getBoundingClientRect();
-                const x = touch.clientX - rect.left;
-                let side = null;
-
-                if (x <= rect.width * MOBILE_SIDE_RATIO) side = 'left';
-                else if (x >= rect.width * (1 - MOBILE_SIDE_RATIO)) side = 'right';
-                else return;
-
-                event.preventDefault();
-                event.stopImmediatePropagation();
-
-                const now = Date.now();
-                const isDoubleTap = lastSideTap.side === side && (now - lastSideTap.time) <= DOUBLE_TAP_MS;
-
-                if (isDoubleTap) {
-                    if (side === 'left') pageFlip.flipPrev('top');
-                    else pageFlip.flipNext('top');
-                    lastSideTap = { side: null, time: 0 };
-                } else {
-                    lastSideTap = { side, time: now };
-                }
-            }, { capture: true, passive: false });
-
-            // Stop PageFlip from treating ordinary mobile taps as navigation.
-            flipbookEl.addEventListener('click', function(event) {
-                if (!mobileQuery.matches) return;
-                if (event.target.closest('img')) return;
-                event.stopImmediatePropagation();
-                event.preventDefault();
-            }, true);
+            pageFlip.on('flip', e => updateNavigation(Number(e.data)));
+            updateNavigation(pageFlip.getCurrentPageIndex());
         });
 
         // Lightbox Functions
