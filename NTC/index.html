@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
     <style>
         body {
+            position: relative;
             font-family: 'Georgia', serif;
             background-color: #f9f8f6;
             color: #333;
@@ -89,11 +90,13 @@
         /* Grid for the 12 photos per page */
         .page-content {
             height: 100%;
+            min-height: 0;
             display: flex;
             flex-direction: column;
         }
 
         .page-header {
+            flex: 0 0 auto;
             font-size: 1.2em;
             font-weight: bold;
             color: #6b2633;
@@ -105,10 +108,12 @@
 
         .gallery-grid {
             display: grid;
+            flex: 1 1 auto;
+            min-height: 0;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, minmax(0, 1fr)); /* Prevent rows from expanding past container */
+            grid-template-rows: repeat(2, minmax(0, 1fr));
             gap: 10px;
-            height: 100%;
+            height: auto;
         }
 
         .gallery-item {
@@ -140,8 +145,10 @@
         }
 
         .caption {
+            flex: 0 0 auto;
             margin-top: 5px;
             font-size: 0.65em;
+            line-height: 1.15;
             color: #555;
             text-align: center;
             font-weight: bold;
@@ -263,16 +270,29 @@
                 font-size: 1em;
             }
 
-            /* Convert 3-column layouts to 2-columns on smaller screens to prevent squishing */
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(3, minmax(0, 1fr)); /* Force rows to stay within bounds */
+            /* Portrait pages: reserve caption space so the bottom row never clips. */
+            .gallery-grid:not(.photo-gallery) {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                grid-template-rows: repeat(3, minmax(0, 1fr));
                 gap: 8px;
             }
 
-            /* Convert 4-column collage layouts to 2-columns */
+            .gallery-grid:not(.photo-gallery) .gallery-item img {
+                height: 0;
+                flex: 1 1 0;
+                min-height: 0;
+            }
+
+            .gallery-grid:not(.photo-gallery) .caption {
+                margin-top: 4px;
+                min-height: 1.15em;
+                line-height: 1.1;
+            }
+
+            /* Collage pages use their own row sizing; do not inherit the portrait grid rows. */
             .photo-gallery {
                 grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: none;
                 grid-auto-rows: 110px;
                 gap: 8px;
             }
@@ -294,6 +314,12 @@
 
             .drag-instruction {
                 font-size: 0.85em;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .caption {
+                font-size: 0.6em;
             }
         }
 
@@ -869,14 +895,26 @@
                 });
             }
 
+            function jumpToPage(pageIndex) {
+                const lastPage = pageFlip.getPageCount() - 1;
+                const targetPage = Math.max(0, Math.min(Number(pageIndex), lastPage));
+
+                // Direct page turns are reliable from both hard covers, including the back cover.
+                // They also avoid leaving the book in a partially-flipped animation state.
+                pageFlip.turnToPage(targetPage);
+                updateQuickJump(targetPage);
+            }
+
             quickButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    pageFlip.flip(Number(this.dataset.page), 'top');
+                btn.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    jumpToPage(this.dataset.page);
                 });
             });
 
-            pageFlip.on('flip', e => updateQuickJump(e.data));
-            updateQuickJump(0);
+            pageFlip.on('flip', e => updateQuickJump(Number(e.data)));
+            updateQuickJump(pageFlip.getCurrentPageIndex());
 
             // Desktop: page turns are intentionally double-click only.
             // The double-click must happen in one of the four page-corner zones.
