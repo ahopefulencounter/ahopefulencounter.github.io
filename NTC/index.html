@@ -293,6 +293,126 @@
         }
 
 
+        /* Lightbox Toggle */
+        .lightbox-toggle {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 12000;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border: 1px solid #1a2c3f;
+            border-radius: 999px;
+            padding: 9px 13px;
+            background: rgba(255, 255, 255, 0.96);
+            color: #1a2c3f;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.14);
+            font: inherit;
+            font-size: 0.78em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color .15s ease, color .15s ease, transform .15s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .lightbox-toggle:hover,
+        .lightbox-toggle:focus-visible {
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .lightbox-toggle[aria-pressed="false"] {
+            background: #6b2633;
+            border-color: #6b2633;
+            color: #fff;
+        }
+
+        .lightbox-toggle-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #2f8f4e;
+            box-shadow: 0 0 0 3px rgba(47,143,78,.14);
+        }
+
+        .lightbox-toggle[aria-pressed="false"] .lightbox-toggle-dot {
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(255,255,255,.18);
+        }
+
+        /* Dance Coach Badge */
+        .gallery-item.coach-photo {
+            position: relative;
+        }
+
+        .coach-badge {
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            z-index: 5;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 7px;
+            border-radius: 999px;
+            background: rgba(26,44,63,.92);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.7);
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+            font-family: Arial, sans-serif;
+            font-size: 0.62em;
+            font-weight: 800;
+            letter-spacing: .5px;
+            line-height: 1;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        .coach-badge-icon {
+            display: inline-grid;
+            place-items: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #fff;
+            color: #6b2633;
+            font-size: 11px;
+            line-height: 1;
+        }
+
+        body.lightbox-disabled img[onclick*="openLightbox"] {
+            cursor: default !important;
+        }
+
+        body.lightbox-disabled .gallery-item img:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-toggle {
+                top: 8px;
+                right: 8px;
+                padding: 8px 10px;
+                font-size: .7em;
+            }
+
+            .coach-badge {
+                top: 5px;
+                left: 5px;
+                padding: 4px 6px;
+                font-size: .56em;
+            }
+
+            .coach-badge-icon {
+                width: 14px;
+                height: 14px;
+                font-size: 9px;
+            }
+        }
+
+
         /* Quick Jump Navigation */
         .quick-jump {
             width: min(100%, 980px);
@@ -404,14 +524,16 @@
                 font-size: .75em;
             }
 
-            .drag-instruction::after {
-                content: ' On mobile, double-tap the left or right side of the book to navigate.';
-            }
         }
 
     </style>
 </head>
 <body>
+
+    <button id="lightbox-toggle" class="lightbox-toggle" type="button" aria-pressed="true" aria-label="Disable photo lightbox">
+        <span class="lightbox-toggle-dot" aria-hidden="true"></span>
+        <span id="lightbox-toggle-label">Photo Zoom: ON</span>
+    </button>
 
     <header>
         <div class="header-title">A Hopeful Encounter, Inc.</div>
@@ -441,17 +563,20 @@
                     <div class="page-header">PAGE 01</div>
                     <div class="gallery-grid">
                         
-                        <div class="gallery-item">
+                        <div class="gallery-item coach-photo">
+                            <span class="coach-badge" aria-label="Dance Coach"><span class="coach-badge-icon" aria-hidden="true">★</span><span>Coach</span></span>
                             <img src="optimize_img/DSC05033.webp" alt="Abby Xiong" onclick="openLightbox('optimize_img/DSC05033.webp', 'Abby Xiong', event)" title="Click to zoom">
                             <div class="caption">Abby Xiong</div>
                         </div>
 
-                        <div class="gallery-item">
+                        <div class="gallery-item coach-photo">
+                            <span class="coach-badge" aria-label="Dance Coach"><span class="coach-badge-icon" aria-hidden="true">★</span><span>Coach</span></span>
                             <img src="optimize_img/DSC05043.webp" alt="Eleanor Xiong" onclick="openLightbox('optimize_img/DSC05043.webp', 'Eleanor Xiong', event)" title="Click to zoom">
                             <div class="caption">Eleanor Xiong</div>
                         </div>
 
-                        <div class="gallery-item">
+                        <div class="gallery-item coach-photo">
+                            <span class="coach-badge" aria-label="Dance Coach"><span class="coach-badge-icon" aria-hidden="true">★</span><span>Coach</span></span>
                             <img src="optimize_img/DSC05038.webp" alt="Pearl Xiong" onclick="openLightbox('optimize_img/DSC05038.webp', 'Pearl Xiong', event)" title="Click to zoom">
                             <div class="caption">Pearl Xiong</div>
                         </div>
@@ -649,7 +774,7 @@
     </div>
 
     <div class="drag-instruction">
-        ← Click and drag the corners of the pages to flip through the yearbook →
+        ← Desktop: double-click a page corner to turn pages • Mobile: double-tap the left or right side →
     </div>
 
     <nav class="quick-jump" aria-label="Quick jump navigation">
@@ -677,8 +802,35 @@
     <script>
         // Flipbook Initialization + Navigation Controls
         let pageFlip;
+        let lightboxEnabled = true;
+
+        function updateLightboxToggleUI() {
+            const toggle = document.getElementById('lightbox-toggle');
+            const label = document.getElementById('lightbox-toggle-label');
+            if (!toggle || !label) return;
+
+            toggle.setAttribute('aria-pressed', String(lightboxEnabled));
+            toggle.setAttribute('aria-label', lightboxEnabled ? 'Disable photo lightbox' : 'Enable photo lightbox');
+            label.textContent = lightboxEnabled ? 'Photo Zoom: ON' : 'Photo Zoom: OFF';
+            document.body.classList.toggle('lightbox-disabled', !lightboxEnabled);
+
+            document.querySelectorAll('img[onclick*="openLightbox"]').forEach(img => {
+                img.title = lightboxEnabled ? 'Click to zoom' : 'Photo zoom is disabled';
+            });
+
+            if (!lightboxEnabled) closeLightbox();
+        }
+
+        function toggleLightbox() {
+            lightboxEnabled = !lightboxEnabled;
+            updateLightboxToggleUI();
+        }
 
         document.addEventListener('DOMContentLoaded', function() {
+            const lightboxToggle = document.getElementById('lightbox-toggle');
+            lightboxToggle.addEventListener('click', toggleLightbox);
+            updateLightboxToggleUI();
+
             const flipbookEl = document.getElementById('flipbook');
             const containerEl = document.getElementById('flipbook-container');
             const mobileQuery = window.matchMedia('(max-width: 768px)');
@@ -699,7 +851,9 @@
                 showCover: true,
                 mobileScrollSupport: false,
                 usePortrait: true,
-                clickEventForward: false
+                clickEventForward: false,
+                disableFlipByClick: true,
+                useMouseEvents: false
             });
             pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
 
@@ -719,9 +873,9 @@
             pageFlip.on('flip', e => updateQuickJump(e.data));
             updateQuickJump(0);
 
-            // Desktop: block click-to-flip everywhere except the four corners.
-            // Dragging from a corner remains available through PageFlip.
-            function isInCorner(clientX, clientY) {
+            // Desktop: page turns are intentionally double-click only.
+            // The double-click must happen in one of the four page-corner zones.
+            function getCornerSide(clientX, clientY) {
                 const rect = flipbookEl.getBoundingClientRect();
                 const x = clientX - rect.left;
                 const y = clientY - rect.top;
@@ -729,16 +883,37 @@
                 const nearRight = x <= rect.width && x >= rect.width - CORNER_SIZE;
                 const nearTop = y >= 0 && y <= CORNER_SIZE;
                 const nearBottom = y <= rect.height && y >= rect.height - CORNER_SIZE;
-                return (nearLeft || nearRight) && (nearTop || nearBottom);
+
+                if (!(nearTop || nearBottom)) return null;
+                if (nearLeft) return 'left';
+                if (nearRight) return 'right';
+                return null;
             }
 
+            // Consume ordinary clicks on the book so they can never turn a page.
+            // Image clicks are allowed through for the optional photo lightbox.
             flipbookEl.addEventListener('click', function(event) {
                 if (mobileQuery.matches) return;
-                if (event.target.closest('img')) return; // preserve lightbox clicks
-                if (!isInCorner(event.clientX, event.clientY)) {
+                if (event.target.closest('img')) return;
+                event.stopImmediatePropagation();
+                event.preventDefault();
+            }, true);
+
+            flipbookEl.addEventListener('dblclick', function(event) {
+                if (mobileQuery.matches) return;
+                if (event.target.closest('img')) return;
+
+                const side = getCornerSide(event.clientX, event.clientY);
+                if (!side) {
                     event.stopImmediatePropagation();
                     event.preventDefault();
+                    return;
                 }
+
+                event.stopImmediatePropagation();
+                event.preventDefault();
+                if (side === 'left') pageFlip.flipPrev('top');
+                else pageFlip.flipNext('top');
             }, true);
 
             // Mobile: navigation happens only after a double tap in a side zone.
@@ -782,8 +957,12 @@
 
         // Lightbox Functions
         function openLightbox(imageSrc, captionText, event) {
-            // Stop the click from registering on the book page (prevents accidental page turns)
-            event.stopPropagation(); 
+            // Always keep image clicks from becoming page-turn clicks.
+            if (event) event.stopPropagation();
+            if (!lightboxEnabled) {
+                if (event) event.preventDefault();
+                return;
+            }
             
             const modal = document.getElementById("lightbox-modal");
             const modalImg = document.getElementById("lightbox-img");
