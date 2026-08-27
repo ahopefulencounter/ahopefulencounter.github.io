@@ -291,6 +291,124 @@
                 font-size: 0.85em;
             }
         }
+
+
+        /* Quick Jump Navigation */
+        .quick-jump {
+            width: min(100%, 980px);
+            margin: 18px auto 8px;
+            padding: 14px 16px;
+            box-sizing: border-box;
+            background: #fff;
+            border: 1px solid #e0ddd7;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .quick-jump-title {
+            display: block;
+            margin-bottom: 10px;
+            color: #6b2633;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.78em;
+        }
+
+        .quick-jump-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .quick-jump button {
+            border: 1px solid #1a2c3f;
+            background: #f9f8f6;
+            color: #1a2c3f;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font: inherit;
+            font-size: 0.82em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform .15s ease, background-color .15s ease, color .15s ease;
+        }
+
+        .quick-jump button:hover,
+        .quick-jump button:focus-visible {
+            background: #1a2c3f;
+            color: #fff;
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .quick-jump button.active {
+            background: #6b2633;
+            border-color: #6b2633;
+            color: #fff;
+        }
+
+        /* Desktop corner hints: only these regions trigger click navigation. */
+        .corner-nav-hint {
+            position: absolute;
+            width: 72px;
+            height: 72px;
+            z-index: 20;
+            display: none;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .2s ease;
+        }
+
+        .flipbook-container:hover .corner-nav-hint { opacity: .9; }
+        .corner-nav-hint::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-style: solid;
+            border-color: rgba(107,38,51,.7);
+        }
+        .corner-nav-hint.left-top { left: 0; top: 0; }
+        .corner-nav-hint.left-bottom { left: 0; bottom: 0; }
+        .corner-nav-hint.right-top { right: 0; top: 0; }
+        .corner-nav-hint.right-bottom { right: 0; bottom: 0; }
+        .corner-nav-hint.left-top::after { left: 10px; top: 10px; border-width: 2px 0 0 2px; }
+        .corner-nav-hint.left-bottom::after { left: 10px; bottom: 10px; border-width: 0 0 2px 2px; }
+        .corner-nav-hint.right-top::after { right: 10px; top: 10px; border-width: 2px 2px 0 0; }
+        .corner-nav-hint.right-bottom::after { right: 10px; bottom: 10px; border-width: 0 2px 2px 0; }
+
+        @media (min-width: 769px) {
+            .flipbook-container { position: relative; }
+            .corner-nav-hint { display: block; }
+        }
+
+        @media (max-width: 768px) {
+            .quick-jump {
+                position: sticky;
+                bottom: 8px;
+                z-index: 100;
+                width: calc(100% - 8px);
+                padding: 10px;
+                backdrop-filter: blur(8px);
+                background: rgba(255,255,255,.94);
+            }
+
+            .quick-jump-title { margin-bottom: 7px; }
+            .quick-jump-buttons { gap: 6px; }
+            .quick-jump button {
+                min-width: 38px;
+                padding: 7px 9px;
+                font-size: .75em;
+            }
+
+            .drag-instruction::after {
+                content: ' On mobile, double-tap the left or right side of the book to navigate.';
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -301,7 +419,11 @@
         <p class="subtitle">Capturing a season of growth and celebrating the leaders we are becoming, rooted in the style, grace, and confidence through Hmong Dance!</p>
     </header>
 
-    <div class="flipbook-container">
+    <div class="flipbook-container" id="flipbook-container">
+        <span class="corner-nav-hint left-top" aria-hidden="true"></span>
+        <span class="corner-nav-hint left-bottom" aria-hidden="true"></span>
+        <span class="corner-nav-hint right-top" aria-hidden="true"></span>
+        <span class="corner-nav-hint right-bottom" aria-hidden="true"></span>
         <div id="flipbook">
             
             <!-- Front Cover -->
@@ -530,6 +652,20 @@
         ← Click and drag the corners of the pages to flip through the yearbook →
     </div>
 
+    <nav class="quick-jump" aria-label="Quick jump navigation">
+        <span class="quick-jump-title">Quick Jump</span>
+        <div class="quick-jump-buttons">
+            <button type="button" data-page="0">Cover</button>
+            <button type="button" data-page="1">01</button>
+            <button type="button" data-page="2">02</button>
+            <button type="button" data-page="3">03</button>
+            <button type="button" data-page="4">04</button>
+            <button type="button" data-page="5">05</button>
+            <button type="button" data-page="6">06</button>
+            <button type="button" data-page="7">Back</button>
+        </div>
+    </nav>
+
     <!-- The Lightbox Modal -->
     <div id="lightbox-modal">
         <span class="close-modal" onclick="closeLightbox()">&times;</span>
@@ -539,9 +675,19 @@
 
     <!-- Scripts -->
     <script>
-        // Flipbook Initialization
+        // Flipbook Initialization + Navigation Controls
+        let pageFlip;
+
         document.addEventListener('DOMContentLoaded', function() {
-            const pageFlip = new St.PageFlip(document.getElementById('flipbook'), {
+            const flipbookEl = document.getElementById('flipbook');
+            const containerEl = document.getElementById('flipbook-container');
+            const mobileQuery = window.matchMedia('(max-width: 768px)');
+            const CORNER_SIZE = 90;
+            const MOBILE_SIDE_RATIO = 0.28;
+            const DOUBLE_TAP_MS = 350;
+            let lastSideTap = { side: null, time: 0 };
+
+            pageFlip = new St.PageFlip(flipbookEl, {
                 width: 500,
                 height: 700,
                 size: "stretch",
@@ -552,9 +698,86 @@
                 maxShadowOpacity: 0.5,
                 showCover: true,
                 mobileScrollSupport: false,
-                usePortrait: true // Automatically switches to single-page portrait layout on narrow screens
+                usePortrait: true,
+                clickEventForward: false
             });
             pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
+
+            const quickButtons = document.querySelectorAll('.quick-jump button[data-page]');
+            function updateQuickJump(pageIndex) {
+                quickButtons.forEach(btn => {
+                    btn.classList.toggle('active', Number(btn.dataset.page) === pageIndex);
+                });
+            }
+
+            quickButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    pageFlip.flip(Number(this.dataset.page), 'top');
+                });
+            });
+
+            pageFlip.on('flip', e => updateQuickJump(e.data));
+            updateQuickJump(0);
+
+            // Desktop: block click-to-flip everywhere except the four corners.
+            // Dragging from a corner remains available through PageFlip.
+            function isInCorner(clientX, clientY) {
+                const rect = flipbookEl.getBoundingClientRect();
+                const x = clientX - rect.left;
+                const y = clientY - rect.top;
+                const nearLeft = x >= 0 && x <= CORNER_SIZE;
+                const nearRight = x <= rect.width && x >= rect.width - CORNER_SIZE;
+                const nearTop = y >= 0 && y <= CORNER_SIZE;
+                const nearBottom = y <= rect.height && y >= rect.height - CORNER_SIZE;
+                return (nearLeft || nearRight) && (nearTop || nearBottom);
+            }
+
+            flipbookEl.addEventListener('click', function(event) {
+                if (mobileQuery.matches) return;
+                if (event.target.closest('img')) return; // preserve lightbox clicks
+                if (!isInCorner(event.clientX, event.clientY)) {
+                    event.stopImmediatePropagation();
+                    event.preventDefault();
+                }
+            }, true);
+
+            // Mobile: navigation happens only after a double tap in a side zone.
+            // Single taps in those zones are consumed so PageFlip does not turn accidentally.
+            flipbookEl.addEventListener('touchend', function(event) {
+                if (!mobileQuery.matches || !event.changedTouches.length) return;
+                if (document.getElementById('lightbox-modal').style.display === 'block') return;
+
+                const touch = event.changedTouches[0];
+                const rect = flipbookEl.getBoundingClientRect();
+                const x = touch.clientX - rect.left;
+                let side = null;
+
+                if (x <= rect.width * MOBILE_SIDE_RATIO) side = 'left';
+                else if (x >= rect.width * (1 - MOBILE_SIDE_RATIO)) side = 'right';
+                else return;
+
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                const now = Date.now();
+                const isDoubleTap = lastSideTap.side === side && (now - lastSideTap.time) <= DOUBLE_TAP_MS;
+
+                if (isDoubleTap) {
+                    if (side === 'left') pageFlip.flipPrev('top');
+                    else pageFlip.flipNext('top');
+                    lastSideTap = { side: null, time: 0 };
+                } else {
+                    lastSideTap = { side, time: now };
+                }
+            }, { capture: true, passive: false });
+
+            // Stop PageFlip from treating ordinary mobile taps as navigation.
+            flipbookEl.addEventListener('click', function(event) {
+                if (!mobileQuery.matches) return;
+                if (event.target.closest('img')) return;
+                event.stopImmediatePropagation();
+                event.preventDefault();
+            }, true);
         });
 
         // Lightbox Functions
