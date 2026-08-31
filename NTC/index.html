@@ -582,6 +582,102 @@
 
         }
 
+
+        /* NTC Request Form Popup */
+        .ntc-popup-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 20000;
+            background: rgba(13, 22, 32, 0.62);
+            padding: 20px;
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .ntc-popup-overlay.show {
+            display: flex;
+        }
+
+        .ntc-popup-card {
+            position: relative;
+            width: min(92vw, 460px);
+            background: #fff;
+            border: 1px solid #e0ddd7;
+            border-radius: 18px;
+            box-shadow: 0 18px 55px rgba(0,0,0,.28);
+            padding: 34px 28px 28px;
+            text-align: center;
+            animation: ntcPopupIn .28s ease-out;
+        }
+
+        @keyframes ntcPopupIn {
+            from { opacity: 0; transform: translateY(14px) scale(.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .ntc-popup-card h2 {
+            margin: 0 0 10px;
+            color: #1a2c3f;
+            font-size: 1.65rem;
+        }
+
+        .ntc-popup-card p {
+            margin: 0 0 22px;
+            color: #555;
+            line-height: 1.5;
+            font-family: Arial, sans-serif;
+        }
+
+        .ntc-popup-button {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 999px;
+            background: #6b2633;
+            color: #fff;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            box-shadow: 0 5px 14px rgba(107,38,51,.24);
+            transition: transform .15s ease, background-color .15s ease;
+        }
+
+        .ntc-popup-button:hover,
+        .ntc-popup-button:focus-visible {
+            background: #1a2c3f;
+            transform: translateY(-1px);
+            outline: none;
+        }
+
+        .ntc-popup-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            color: #555;
+            font-size: 28px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .ntc-popup-close:hover,
+        .ntc-popup-close:focus-visible {
+            background: #f1efec;
+            color: #1a2c3f;
+            outline: none;
+        }
+
+        @media (max-width: 480px) {
+            .ntc-popup-card { padding: 32px 20px 24px; }
+            .ntc-popup-card h2 { font-size: 1.4rem; }
+        }
+
     </style>
 </head>
 <body>
@@ -845,6 +941,18 @@
         </div>
     </nav>
 
+
+    <!-- NTC Request Form Popup -->
+    <div id="ntc-request-popup" class="ntc-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="ntc-popup-title" aria-hidden="true">
+        <div class="ntc-popup-card">
+            <button id="ntc-popup-close" class="ntc-popup-close" type="button" aria-label="Close NTC request form popup">&times;</button>
+            <h2 id="ntc-popup-title">Interested in having Ntxhais Txuj Ci perform at your event?</h2>
+            <p>Submit an NTC request form to connect with A Hopeful Encounter.</p>
+            <!-- Replace # with the live NTC Request Form URL -->
+            <a class="ntc-popup-button" href="https://forms.gle/HZx98MfsiiJCKNfa6" target="_blank" id="ntc-request-form-button">NTC Request Form</a>
+        </div>
+    </div>
+
     <!-- The Lightbox Modal -->
     <div id="lightbox-modal">
         <span class="close-modal" onclick="closeLightbox()">&times;</span>
@@ -978,6 +1086,33 @@
 
             pageFlip.on('flip', e => updateNavigation(Number(e.data)));
             updateNavigation(pageFlip.getCurrentPageIndex());
+        });
+
+
+        // NTC Request Form Popup - appears 2 seconds after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const ntcPopup = document.getElementById('ntc-request-popup');
+            const ntcPopupClose = document.getElementById('ntc-popup-close');
+            const ntcFormButton = document.getElementById('ntc-request-form-button');
+
+            function closeNtcPopup() {
+                ntcPopup.classList.remove('show');
+                ntcPopup.setAttribute('aria-hidden', 'true');
+            }
+
+            window.setTimeout(function() {
+                ntcPopup.classList.add('show');
+                ntcPopup.setAttribute('aria-hidden', 'false');
+                ntcFormButton.focus();
+            }, 2000);
+
+            ntcPopupClose.addEventListener('click', closeNtcPopup);
+            ntcPopup.addEventListener('click', function(event) {
+                if (event.target === ntcPopup) closeNtcPopup();
+            });
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && ntcPopup.classList.contains('show')) closeNtcPopup();
+            });
         });
 
         // Lightbox Functions
